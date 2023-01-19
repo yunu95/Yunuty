@@ -1,0 +1,478 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="YunutyEngine">
+      <UniqueIdentifier>{a7274e7e-5955-4982-925c-ae59580e1650}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="YunutyEngine\Camera">
+      <UniqueIdentifier>{9cfaf4a2-73e4-48d6-b400-7afb17beba93}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="YunutyEngine\GameObject">
+      <UniqueIdentifier>{e5a8f45a-cf54-4f56-a62c-8080d293c4e7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="YunutyEngine\Component">
+      <UniqueIdentifier>{06018011-ef71-442e-8947-c6b52dcdcfb0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="YunutyEngine\GlobalComponent">
+      <UniqueIdentifier>{3749abed-896b-4faa-83cb-d65928651614}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="YunutyEngine\Graphic">
+      <UniqueIdentifier>{063ae24f-ee45-487c-9b8f-4851e5ce51ee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="YunutyEngine\IGameObjectParent">
+      <UniqueIdentifier>{11be8a31-7501-4de6-b5d3-295bd0c6f39d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="YunutyEngine\Main">
+      <UniqueIdentifier>{0da704d6-b767-4c16-abdc-6007855ba31a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="YunutyEngine\Scene">
+      <UniqueIdentifier>{414d18f2-6fb1-477b-bcc4-00e8577bfe9c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="YunutyEngine\Input">
+      <UniqueIdentifier>{17e16932-99d2-4de9-8811-220035203e79}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="YunutyEngine\Object">
+      <UniqueIdentifier>{6c1fd115-3081-4e3c-b7d0-076331d53914}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="YunutyEngine\Rect">
+      <UniqueIdentifier>{1f3f512b-8bc5-43c6-9938-8aa9635aafbd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="YunutyEngine\Vector">
+      <UniqueIdentifier>{cc550316-6369-4da3-b1c5-3e3983b21aa8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="YunutyEngine\Vector2">
+      <UniqueIdentifier>{a64bd0ea-153f-4aa6-ba21-9b8f804cb6e1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="YunutyEngine\Vector3">
+      <UniqueIdentifier>{b3451bcd-fbab-4cc9-995e-f6354d26c178}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="YunutyEngine\RectTransform">
+      <UniqueIdentifier>{559b3d71-4a42-4978-b2c3-ebcea1ecdfb8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="YunutyEngine\Transform">
+      <UniqueIdentifier>{d1e99e29-4f2a-4665-91a7-d768d7b3f084}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="YunutyEngine\Time">
+      <UniqueIdentifier>{d9ee02eb-3bb7-4fc4-b376-f6b430d599d4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="YunutyEngine\YunutyCycle">
+      <UniqueIdentifier>{b7c983c1-821e-42f4-b524-87fc14a41c05}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="YunutyEngine\YunutyEngine Header">
+      <UniqueIdentifier>{af86806f-f074-4c5b-8b0e-92eaa187b6fc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Deprecated">
+      <UniqueIdentifier>{2b0727d7-6804-46ff-b774-da89204bf5b0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Deprecated\Header Files%28Deprecated%29">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Deprecated\Header Files%28Deprecated%29\Console">
+      <UniqueIdentifier>{a3f62e7d-486f-438d-b1fe-20f48150d065}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Deprecated\Header Files%28Deprecated%29\WinAPI">
+      <UniqueIdentifier>{c2a42c42-cf5c-4748-b6f3-1ee9343c3e6b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Deprecated\Header Files%28Deprecated%29\WinAPI\Sample">
+      <UniqueIdentifier>{34df3c9a-1540-4394-849f-2f570d86f02e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Deprecated\Source Files%28Deprecated%29">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Deprecated\Source Files%28Deprecated%29\Console">
+      <UniqueIdentifier>{9c060e95-f5a2-4afa-9d5d-66213230449e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Deprecated\Source Files%28Deprecated%29\WinAPI">
+      <UniqueIdentifier>{d9e4c4c0-2cc7-488e-9143-6d58397c02ac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Deprecated\Source Files%28Deprecated%29\WinAPI\Sample">
+      <UniqueIdentifier>{711a76c4-ce86-4dc1-aa54-31152090fa20}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Deprecated\Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Deprecated\Resource Files\WinAPI">
+      <UniqueIdentifier>{4d7d1f18-5ce0-412f-b678-be7d5f4f55e2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="YunutyEngine\D2D">
+      <UniqueIdentifier>{f39a6929-70f6-4d21-8146-fd566ea0888c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="YunutyEngine\D2D\D2DCycle">
+      <UniqueIdentifier>{75d540cc-2854-49d6-a197-c0199aa2ecd6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="YunutyEngine\D2D\D2DCamera">
+      <UniqueIdentifier>{fbad3621-1ab1-41fc-bc31-ee6ace60247e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="YunutyEngine\D2D\D2DCircle">
+      <UniqueIdentifier>{c2e14487-8f8b-4a6e-964a-1d1ade4895b6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="YunutyEngine\D2D\D2DGraphic">
+      <UniqueIdentifier>{95f1ad94-86f8-431c-b251-0849715b898d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="YunutyEngine\D2D\D2DInput">
+      <UniqueIdentifier>{ac308dd4-e4fb-444b-8530-ee208375bc14}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="YunutyEngine\RigidBody">
+      <UniqueIdentifier>{1ae7a020-d3a9-440b-95f3-7e30103c735a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="YunutyEngine\RigidBody2D">
+      <UniqueIdentifier>{6015c4fc-a7de-4730-afc6-f0cdb83a7c5f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="YunutyEngine\D2D\D2DTrasnformWrapper">
+      <UniqueIdentifier>{8dab6454-77d8-403d-a6d6-79ea3e89a7ce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="YunutyEngine\Quaternion">
+      <UniqueIdentifier>{fcc94e5d-ac23-4468-9635-8ec57c2ae4eb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="YunutyEngine\Collider2D">
+      <UniqueIdentifier>{e1bbed2d-709b-4833-8425-bf869fadf461}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="YunutyEngine\BoxCollider2D">
+      <UniqueIdentifier>{5a84d76b-0b86-46a1-96e2-14a2f45d5839}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="YunutyEngine\CircleCollider2D">
+      <UniqueIdentifier>{d57ed543-df79-4293-8409-22acab2736ad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="YunutyEngine\Collision">
+      <UniqueIdentifier>{e707c0f1-3d37-437e-b02d-cccaf4a1677c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="YunutyEngine\Collision2D">
+      <UniqueIdentifier>{17950682-2c73-4882-8bc9-25d5ec6a1500}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="YunutyEngine\D2D\D2DRectangle">
+      <UniqueIdentifier>{fcb5cfd0-7331-49aa-b985-6006122a400f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="YunutyEngine\LineCollider2D">
+      <UniqueIdentifier>{26ef4fac-6bc9-46c8-9ed2-87a317662552}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="YunutyEngine\YunutyMath">
+      <UniqueIdentifier>{39430b3c-c2c3-4736-b183-8f0e925afa1e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="YunutyEngine\YunutyMath\Constants">
+      <UniqueIdentifier>{bbad6667-5bb2-46d5-8250-12760d8eea23}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="YunutyEngine\Interval">
+      <UniqueIdentifier>{9bb6c81b-45ad-4086-8af7-90e90ba8470b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="YunutyEngine\D2D\D2DText">
+      <UniqueIdentifier>{66b7dab2-cb4c-468d-a927-f4663f13add4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="YunutyEngine\D2D\D2DSpriteImage">
+      <UniqueIdentifier>{0f37f9d6-6c04-4d4e-ba06-0cbd627e26e4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="YunutyEngine\D2D\D2DAnimatedSprite">
+      <UniqueIdentifier>{7013fa98-0856-45fb-be69-aa6f5abb527d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="YunutyEngine\NavigationField2D">
+      <UniqueIdentifier>{e4dce237-68af-47ff-94b3-b4e59232a33c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="YunutyEngine\NavigationUnit2D">
+      <UniqueIdentifier>{ef5f6ac6-4762-4e1c-8d95-523f1f7f4bd5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="YunutyEngine\NavigationUnit2DState">
+      <UniqueIdentifier>{b73e7163-071d-4c30-b9ee-709cad9dcc22}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="YunutyEngine\NavigationUnit2DReport">
+      <UniqueIdentifier>{f6fe8166-bf7c-4d7e-a4d3-0684e6b40a49}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="YunutyEngine\D2D\PixelInfos">
+      <UniqueIdentifier>{a3ba3106-49ab-4d27-99ed-46f3ebf2c69e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="YunutyEngine\D2D\Pixel">
+      <UniqueIdentifier>{7eec703a-dec0-468d-9de1-891ba365c23d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="YunutyEngine\YunutyMath\Random">
+      <UniqueIdentifier>{e7d7fe7c-8bfa-4995-bf15-a299619a8782}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Camera.cpp">
+      <Filter>YunutyEngine\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject.cpp">
+      <Filter>YunutyEngine\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Component.cpp">
+      <Filter>YunutyEngine\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="GlobalComponent.cpp">
+      <Filter>YunutyEngine\GlobalComponent</Filter>
+    </ClCompile>
+    <ClCompile Include="Vector.cpp">
+      <Filter>YunutyEngine\Vector</Filter>
+    </ClCompile>
+    <ClCompile Include="Vector2.cpp">
+      <Filter>YunutyEngine\Vector2</Filter>
+    </ClCompile>
+    <ClCompile Include="Vector3.cpp">
+      <Filter>YunutyEngine\Vector3</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphic.cpp">
+      <Filter>YunutyEngine\Graphic</Filter>
+    </ClCompile>
+    <ClCompile Include="Main.cpp">
+      <Filter>YunutyEngine\Main</Filter>
+    </ClCompile>
+    <ClCompile Include="Input.cpp">
+      <Filter>YunutyEngine\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="Object.cpp">
+      <Filter>YunutyEngine\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene.cpp">
+      <Filter>YunutyEngine\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Rect.cpp">
+      <Filter>YunutyEngine\Rect</Filter>
+    </ClCompile>
+    <ClCompile Include="RectTransform.cpp">
+      <Filter>YunutyEngine\RectTransform</Filter>
+    </ClCompile>
+    <ClCompile Include="Transform.cpp">
+      <Filter>YunutyEngine\Transform</Filter>
+    </ClCompile>
+    <ClCompile Include="YunutyTime.cpp">
+      <Filter>YunutyEngine\Time</Filter>
+    </ClCompile>
+    <ClCompile Include="YunutyCycle.cpp">
+      <Filter>YunutyEngine\YunutyCycle</Filter>
+    </ClCompile>
+    <ClCompile Include="WinMain.cpp">
+      <Filter>YunutyEngine\Main</Filter>
+    </ClCompile>
+    <ClCompile Include="D2DCamera.cpp">
+      <Filter>YunutyEngine\D2D\D2DCamera</Filter>
+    </ClCompile>
+    <ClCompile Include="D2DCycle.cpp">
+      <Filter>YunutyEngine\D2D\D2DCycle</Filter>
+    </ClCompile>
+    <ClCompile Include="D2DCircle.cpp">
+      <Filter>YunutyEngine\D2D\D2DCircle</Filter>
+    </ClCompile>
+    <ClCompile Include="D2DGraphic.cpp">
+      <Filter>YunutyEngine\D2D\D2DGraphic</Filter>
+    </ClCompile>
+    <ClCompile Include="D2DInput.cpp">
+      <Filter>YunutyEngine\D2D\D2DInput</Filter>
+    </ClCompile>
+    <ClCompile Include="RigidBody.cpp">
+      <Filter>YunutyEngine\RigidBody</Filter>
+    </ClCompile>
+    <ClCompile Include="RigidBody2D.cpp">
+      <Filter>YunutyEngine\RigidBody2D</Filter>
+    </ClCompile>
+    <ClCompile Include="D2DTransformWrapper.cpp">
+      <Filter>YunutyEngine\D2D\D2DTrasnformWrapper</Filter>
+    </ClCompile>
+    <ClCompile Include="Quaternion.cpp">
+      <Filter>YunutyEngine\Quaternion</Filter>
+    </ClCompile>
+    <ClCompile Include="Collider2D.cpp">
+      <Filter>YunutyEngine\Collider2D</Filter>
+    </ClCompile>
+    <ClCompile Include="BoxCollider2D.cpp">
+      <Filter>YunutyEngine\BoxCollider2D</Filter>
+    </ClCompile>
+    <ClCompile Include="CircleCollider2D.cpp">
+      <Filter>YunutyEngine\CircleCollider2D</Filter>
+    </ClCompile>
+    <ClCompile Include="D2DRectangle.cpp">
+      <Filter>YunutyEngine\D2D\D2DRectangle</Filter>
+    </ClCompile>
+    <ClCompile Include="LineCollider2D.cpp">
+      <Filter>YunutyEngine\LineCollider2D</Filter>
+    </ClCompile>
+    <ClCompile Include="YunutyMathConstants.cpp">
+      <Filter>YunutyEngine\YunutyMath\Constants</Filter>
+    </ClCompile>
+    <ClCompile Include="Interval.cpp">
+      <Filter>YunutyEngine\Interval</Filter>
+    </ClCompile>
+    <ClCompile Include="D2DText.cpp">
+      <Filter>YunutyEngine\D2D\D2DText</Filter>
+    </ClCompile>
+    <ClCompile Include="D2DAnimatedSprite.cpp">
+      <Filter>YunutyEngine\D2D\D2DAnimatedSprite</Filter>
+    </ClCompile>
+    <ClCompile Include="D2DSprite.cpp">
+      <Filter>YunutyEngine\D2D\D2DSpriteImage</Filter>
+    </ClCompile>
+    <ClCompile Include="NavigationField2D.cpp">
+      <Filter>YunutyEngine\NavigationField2D</Filter>
+    </ClCompile>
+    <ClCompile Include="NavigationUnit2D.cpp">
+      <Filter>YunutyEngine\NavigationUnit2D</Filter>
+    </ClCompile>
+    <ClCompile Include="NavigationUnit2DReport.cpp">
+      <Filter>YunutyEngine\NavigationUnit2DReport</Filter>
+    </ClCompile>
+    <ClCompile Include="YunutyPixelInfos.cpp">
+      <Filter>YunutyEngine\D2D\PixelInfos</Filter>
+    </ClCompile>
+    <ClCompile Include="YunutyPixel.cpp">
+      <Filter>YunutyEngine\D2D\Pixel</Filter>
+    </ClCompile>
+    <ClCompile Include="Random.cpp">
+      <Filter>YunutyEngine\YunutyMath\Random</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="header\Camera.h">
+      <Filter>YunutyEngine\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="header\GameObject.h">
+      <Filter>YunutyEngine\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="header\Component.h">
+      <Filter>YunutyEngine\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="header\GlobalComponent.h">
+      <Filter>YunutyEngine\GlobalComponent</Filter>
+    </ClInclude>
+    <ClInclude Include="header\Vector2.h">
+      <Filter>YunutyEngine\Vector2</Filter>
+    </ClInclude>
+    <ClInclude Include="header\Vector.h">
+      <Filter>YunutyEngine\Vector</Filter>
+    </ClInclude>
+    <ClInclude Include="header\Vector3.h">
+      <Filter>YunutyEngine\Vector3</Filter>
+    </ClInclude>
+    <ClInclude Include="header\Graphic.h">
+      <Filter>YunutyEngine\Graphic</Filter>
+    </ClInclude>
+    <ClInclude Include="header\IGameObjectParent.h">
+      <Filter>YunutyEngine\IGameObjectParent</Filter>
+    </ClInclude>
+    <ClInclude Include="header\Input.h">
+      <Filter>YunutyEngine\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="header\Object.h">
+      <Filter>YunutyEngine\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="header\Scene.h">
+      <Filter>YunutyEngine\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="header\Rect.h">
+      <Filter>YunutyEngine\Rect</Filter>
+    </ClInclude>
+    <ClInclude Include="header\RectTransform.h">
+      <Filter>YunutyEngine\RectTransform</Filter>
+    </ClInclude>
+    <ClInclude Include="header\Transform.h">
+      <Filter>YunutyEngine\Transform</Filter>
+    </ClInclude>
+    <ClInclude Include="header\YunutyTime.h">
+      <Filter>YunutyEngine\Time</Filter>
+    </ClInclude>
+    <ClInclude Include="header\YunutyCycle.h">
+      <Filter>YunutyEngine\YunutyCycle</Filter>
+    </ClInclude>
+    <ClInclude Include="header\EKeycode.h">
+      <Filter>YunutyEngine\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="header\D2DCamera.h">
+      <Filter>YunutyEngine\D2D\D2DCamera</Filter>
+    </ClInclude>
+    <ClInclude Include="header\D2DCycle.h">
+      <Filter>YunutyEngine\D2D\D2DCycle</Filter>
+    </ClInclude>
+    <ClInclude Include="header\D2DCircle.h">
+      <Filter>YunutyEngine\D2D\D2DCircle</Filter>
+    </ClInclude>
+    <ClInclude Include="header\D2DGraphic.h">
+      <Filter>YunutyEngine\D2D\D2DGraphic</Filter>
+    </ClInclude>
+    <ClInclude Include="header\D2DInput.h">
+      <Filter>YunutyEngine\D2D\D2DInput</Filter>
+    </ClInclude>
+    <ClInclude Include="header\YunutyEngine.h">
+      <Filter>YunutyEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="header\RigidBody.h">
+      <Filter>YunutyEngine\RigidBody</Filter>
+    </ClInclude>
+    <ClInclude Include="header\RigidBody2D.h">
+      <Filter>YunutyEngine\RigidBody2D</Filter>
+    </ClInclude>
+    <ClInclude Include="header\D2DTransformWrapper.h">
+      <Filter>YunutyEngine\D2D\D2DTrasnformWrapper</Filter>
+    </ClInclude>
+    <ClInclude Include="header\Quaternion.h">
+      <Filter>YunutyEngine\Quaternion</Filter>
+    </ClInclude>
+    <ClInclude Include="header\Collider2D.h">
+      <Filter>YunutyEngine\Collider2D</Filter>
+    </ClInclude>
+    <ClInclude Include="header\BoxCollider2D.h">
+      <Filter>YunutyEngine\BoxCollider2D</Filter>
+    </ClInclude>
+    <ClInclude Include="header\CircleCollider2D.h">
+      <Filter>YunutyEngine\CircleCollider2D</Filter>
+    </ClInclude>
+    <ClInclude Include="header\Collision2D.h">
+      <Filter>YunutyEngine\Collision2D</Filter>
+    </ClInclude>
+    <ClInclude Include="header\Collision.h">
+      <Filter>YunutyEngine\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="header\D2DRectangle.h">
+      <Filter>YunutyEngine\D2D\D2DRectangle</Filter>
+    </ClInclude>
+    <ClInclude Include="header\LineCollider2D.h">
+      <Filter>YunutyEngine\LineCollider2D</Filter>
+    </ClInclude>
+    <ClInclude Include="header\YunutyMathConstants.h">
+      <Filter>YunutyEngine\YunutyMath\Constants</Filter>
+    </ClInclude>
+    <ClInclude Include="header\Interval.h">
+      <Filter>YunutyEngine\Interval</Filter>
+    </ClInclude>
+    <ClInclude Include="header\D2DText.h">
+      <Filter>YunutyEngine\D2D\D2DText</Filter>
+    </ClInclude>
+    <ClInclude Include="header\D2DAnimatedSprite.h">
+      <Filter>YunutyEngine\D2D\D2DAnimatedSprite</Filter>
+    </ClInclude>
+    <ClInclude Include="header\D2DSprite.h">
+      <Filter>YunutyEngine\D2D\D2DSpriteImage</Filter>
+    </ClInclude>
+    <ClInclude Include="header\NavigationField2D.h">
+      <Filter>YunutyEngine\NavigationField2D</Filter>
+    </ClInclude>
+    <ClInclude Include="header\NavigationUnit2D.h">
+      <Filter>YunutyEngine\NavigationUnit2D</Filter>
+    </ClInclude>
+    <ClInclude Include="header\NavigationUnit2DState.h">
+      <Filter>YunutyEngine\NavigationUnit2DState</Filter>
+    </ClInclude>
+    <ClInclude Include="header\NavigationUnit2DReport.h">
+      <Filter>YunutyEngine\NavigationUnit2DReport</Filter>
+    </ClInclude>
+    <ClInclude Include="header\YunutyPixelInfos.h">
+      <Filter>YunutyEngine\D2D\PixelInfos</Filter>
+    </ClInclude>
+    <ClInclude Include="header\YunutyPixel.h">
+      <Filter>YunutyEngine\D2D\Pixel</Filter>
+    </ClInclude>
+    <ClInclude Include="header\CanvasRenderSpace.h">
+      <Filter>YunutyEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="header\Random.h">
+      <Filter>YunutyEngine\YunutyMath\Random</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Yunuty.rc">
+      <Filter>Deprecated\Resource Files\WinAPI</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="icon1.ico">
+      <Filter>Deprecated\Resource Files</Filter>
+    </Image>
+  </ItemGroup>
+</Project>
