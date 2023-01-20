@@ -114,9 +114,10 @@ void YunutyEngine::GameObject::ReceiveChild(remove_reference<unique_ptr<GameObje
     childIndexMap.insert(make_pair(ptr, childrenIndexed.size()));
     childrenIndexed.push_back(ptr);
 }
-int YunutyEngine::GameObject::GetChildIndex(GameObject* child)
+int YunutyEngine::GameObject::GetChildIndex(const GameObject* child)const
 {
-    return childIndexMap[child];
+    auto found = childIndexMap.find(child);
+    return found == childIndexMap.end() ? -1 : found->second;
 }
 YunutyEngine::GameObject::~GameObject()
 {
@@ -126,12 +127,14 @@ Transform* YunutyEngine::GameObject::GetTransform()
 {
     return transform;
 }
-int YunutyEngine::GameObject::GetChildIndex()
+int YunutyEngine::GameObject::GetChildIndex()const
 {
     return parent->GetChildIndex(this);
 }
-int YunutyEngine::GameObject::GetSceneIndex()
+int YunutyEngine::GameObject::GetSceneIndex()const
 {
+    if (!cachedSceneIndex.IsDirty())
+        return cachedSceneIndex;
     int ret = 1;
     int childIndex = parent->GetChildIndex(this);
     if (childIndex == 0)
@@ -144,7 +147,7 @@ int YunutyEngine::GameObject::GetSceneIndex()
         ret += brother->GetSceneIndex() + brother->childrenNum;
     }
 
-    return ret;
+    return cachedSceneIndex = ret;
 }
 string YunutyEngine::GameObject::getName()const
 {
@@ -153,4 +156,8 @@ string YunutyEngine::GameObject::getName()const
 void YunutyEngine::GameObject::setName(const string& name)
 {
     this->name = name;
+}
+void YunutyEngine::GameObject::SetCacheDirty()
+{
+    cachedSceneIndex.SetDirty();
 }

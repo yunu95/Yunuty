@@ -38,9 +38,11 @@
 #include "CircleCollider2D.h"
 #include "GameObjectPool.h"
 
+// 수학 라이브러리들
 #include "YunutyMathConstants.h"
 #include "Random.h"
 #include "Interval.h"
+#include "Curve.h"
 
 #include "CanvasRenderSpace.h"
 

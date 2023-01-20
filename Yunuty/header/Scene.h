@@ -25,12 +25,12 @@ namespace YunutyEngine
         unordered_set<GameObject*> gameObjects;
         unordered_map<GameObject*, unique_ptr<GameObject>> children;
         vector<GameObject*> childrenIndexed;
-        unordered_map<GameObject*, int> childIndexMap;
+        unordered_map<const GameObject*, int> childIndexMap;
         static Scene* currentScene;
     protected:
         unique_ptr<YunutyEngine::GameObject> MoveChild(GameObject* child) override;
         void ReceiveChild(remove_reference<unique_ptr<GameObject>>::type&& child)override;
-        int GetChildIndex(GameObject* child)override;
+        int GetChildIndex(const GameObject* child)const override;
     public:
         Scene(const Scene&) = delete;
         Scene& operator=(const Scene&) = delete;

@@ -15,5 +15,7 @@
 #include "RTSCamera.h"
 #include "RTSControlInterface.h"
 #include "RA2NavigationField2D.h"
+#include "DebugTile.h"
+#include "DebugTilePool.h"
 #include <vector>
 #include <iostream>

@@ -67,7 +67,7 @@ NavigationField2D* NavigationField2D::GetAssignedField(const Vector2d& worldLoca
     return nullptr;
 }
 
-queue<Vector2d> NavigationField2D::RequestPath(Vector2d origin, Vector2d destination, int maxPathLength)
+queue<Vector2d> NavigationField2D::RequestPath(Vector2d origin, Vector2d destination, int maxPathLength, unordered_set<const Tile*>* openSetOut, unordered_set<const Tile*>* closedSetOut, unordered_set<const Tile*>* pathOut)
 {
     auto tile_src = WorldLocactionToTile(origin);
     Tile::destination = WorldLocactionToTile(destination);
@@ -75,11 +75,6 @@ queue<Vector2d> NavigationField2D::RequestPath(Vector2d origin, Vector2d destina
         return queue<Vector2d>();
 
     priority_queue<Tile*, vector<Tile*>, Tile::TileCompare> openSet;
-    vector<Tile*> openSet2;
-    sort(openSet2.begin(), openSet2.end(), [](Tile* first, Tile* second)
-        {
-            return first->getFScore() < second->getFScore();
-        });
     unordered_set<Tile*> closedSet;
 
     stack<const Tile*> path;
@@ -127,10 +122,30 @@ queue<Vector2d> NavigationField2D::RequestPath(Vector2d origin, Vector2d destina
             openSet.push(&tileMap[row][col]);
         }
     }
+    if (openSetOut != nullptr)
+    {
+        openSetOut->clear();
+        while (!openSet.empty())
+        {
+            openSetOut->insert(openSet.top());
+            openSet.pop();
+        }
+    }
+    if (closedSetOut != nullptr)
+    {
+        closedSetOut->clear();
+        for (auto each : closedSet)
+            closedSetOut->insert(each);
+    }
+    if (pathOut != nullptr)
+        pathOut->clear();
+
     queue<Vector2d> vectorPath;
     while (!path.empty())
     {
         vectorPath.push(TileToWorldLocaction(*path.top()));
+        if (pathOut)
+            pathOut->insert(path.top());
         path.pop();
     }
 

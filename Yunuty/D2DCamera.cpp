@@ -32,17 +32,22 @@ LRESULT CALLBACK D2DCamera::Render(HWND hWnd, UINT message, WPARAM wParam, LPARA
         if (each->GetGameObject()->GetActive() && each->GetGameObject()->GetScene() == GetGameObject()->GetScene())
             graphics.push_back(each);
     }
-    sort(graphics.begin(), graphics.end(), [](D2DGraphic*& item1, D2DGraphic*& item2)->bool
+
+    sort(graphics.begin(), graphics.end(), [](const D2DGraphic* item1,const D2DGraphic* item2)->bool
         {
             return item1->GetGameObject()->GetSceneIndex() < item2->GetGameObject()->GetSceneIndex();
         });
 
+    D2D1::Matrix3x2F eachTransform;
+    Vector3d camPos;
+    Vector3d pos;
+    Vector3d scale;
     for (auto each : graphics)
     {
-        D2D1::Matrix3x2F eachTransform = D2D1::Matrix3x2F::Identity();
-        auto camPos = GetTransform()->GetWorldPosition();
-        auto pos = each->GetTransform()->GetWorldPosition();
-        auto scale = each->GetTransform()->GetWorldScale();
+        eachTransform = D2D1::Matrix3x2F::Identity();
+        camPos = GetTransform()->GetWorldPosition();
+        pos = each->GetTransform()->GetWorldPosition();
+        scale = each->GetTransform()->GetWorldScale();
         eachTransform = eachTransform * ScaleTransform(scale.x, scale.y);
         eachTransform = eachTransform * RotationTransform(each->GetTransform()->GetWorldRotation().Euler().z);
         eachTransform = eachTransform * TranslationTransform(halvedRenderSize.width + pos.x - camPos.x, halvedRenderSize.height - (pos.y - camPos.y));
@@ -64,10 +69,10 @@ LRESULT CALLBACK D2DCamera::Render(HWND hWnd, UINT message, WPARAM wParam, LPARA
 
     for (auto each : graphics)
     {
-        D2D1::Matrix3x2F eachTransform = D2D1::Matrix3x2F::Identity();
-        auto camPos = Vector2d::zero;
-        auto pos = each->GetTransform()->GetWorldPosition();
-        auto scale = each->GetTransform()->GetWorldScale();
+        eachTransform = D2D1::Matrix3x2F::Identity();
+        camPos = Vector2d::zero;
+        pos = each->GetTransform()->GetWorldPosition();
+        scale = each->GetTransform()->GetWorldScale();
         eachTransform = eachTransform * ScaleTransform(scale.x, scale.y);
         eachTransform = eachTransform * RotationTransform(each->GetTransform()->GetWorldRotation().Euler().z);
         eachTransform = eachTransform * TranslationTransform(halvedRenderSize.width + pos.x - camPos.x, halvedRenderSize.height - (pos.y - camPos.y));

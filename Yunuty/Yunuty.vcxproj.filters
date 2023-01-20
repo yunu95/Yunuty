@@ -187,6 +187,12 @@
     <Filter Include="YunutyEngine\YunutyMath\Random">
       <UniqueIdentifier>{e7d7fe7c-8bfa-4995-bf15-a299619a8782}</UniqueIdentifier>
     </Filter>
+    <Filter Include="YunutyEngine\YunutyMath\Curve">
+      <UniqueIdentifier>{4a07ceb3-4594-4546-9797-e7cf082a3fcc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="YunutyEngine\cache">
+      <UniqueIdentifier>{7736d455-84a8-4f78-a489-5035ee785362}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Camera.cpp">
@@ -317,6 +323,12 @@
     </ClCompile>
     <ClCompile Include="Random.cpp">
       <Filter>YunutyEngine\YunutyMath\Random</Filter>
+    </ClCompile>
+    <ClCompile Include="Curve.cpp">
+      <Filter>YunutyEngine\YunutyMath\Curve</Filter>
+    </ClCompile>
+    <ClCompile Include="Cache.cpp">
+      <Filter>YunutyEngine\cache</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -463,6 +475,12 @@
     </ClInclude>
     <ClInclude Include="header\Random.h">
       <Filter>YunutyEngine\YunutyMath\Random</Filter>
+    </ClInclude>
+    <ClInclude Include="header\Curve.h">
+      <Filter>YunutyEngine\YunutyMath\Curve</Filter>
+    </ClInclude>
+    <ClInclude Include="header\Cache.h">
+      <Filter>YunutyEngine\cache</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

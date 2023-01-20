@@ -19,7 +19,7 @@ namespace YunutyEngine
     // 오브젝트가 필요하면 생성하고, 생성된 오브젝트의 용도가 다 끝나면 폐기하는 대신 비활성화만 시켜놨다가,
     // 다시 오브젝트에 대한 요청이 들어오면 재활성화 시키는 오브젝트 풀 객체입니다. 
     template<typename ReprenstativeComponent>
-    class YUNUTY_API GameObjectPool : public Component
+    class GameObjectPool : public Component
     {
         static_assert(std::is_base_of<Component, ReprenstativeComponent>::value, "only derived classes from component are allowed");
     public:
@@ -30,11 +30,13 @@ namespace YunutyEngine
         ReprenstativeComponent* Borrow();
         // 게임 오브젝트 풀에서 관리하는 게임 오브젝트를 되돌려 줍니다.
         void Return(ReprenstativeComponent*);
+        int poolObjectsSize() { return poolObjects.size(); };
+        int expendableObjectsSize() { return expendableObjects.size(); };
     protected:
     private:
         unordered_set<ReprenstativeComponent*> poolObjects;
         unordered_set<ReprenstativeComponent*> expendableObjects;
-        function<void(GameObject*, ReprenstativeComponent*)> objectInitializer = [](GameObject*) {};
+        function<void(GameObject*, ReprenstativeComponent*)> objectInitializer = [](GameObject*, ReprenstativeComponent*) {};
     };
 }
 template<typename ReprenstativeComponent>
@@ -51,10 +53,12 @@ ReprenstativeComponent* GameObjectPool<ReprenstativeComponent>::Borrow()
         auto component = gameObject->AddComponent<ReprenstativeComponent>();
         objectInitializer(gameObject, component);
         poolObjects.insert(component);
+        expendableObjects.insert(component);
     }
-    auto target = expendableObjects.begin();
+    auto target = *expendableObjects.begin();
     expendableObjects.erase(target);
-    ((Component*)target)->GetGameObject()->SetSelfActive(true);
+    target->GetGameObject()->SetSelfActive(true);
+    return target;
 }
 template<typename ReprenstativeComponent>
 void GameObjectPool<ReprenstativeComponent>::Return(ReprenstativeComponent* obj)
@@ -62,6 +66,6 @@ void GameObjectPool<ReprenstativeComponent>::Return(ReprenstativeComponent* obj)
     if (poolObjects.find(obj) != poolObjects.end())
     {
         expendableObjects.insert(obj);
-        ((Component*)obj)->GetGameObject()->SetSelfActive(false);
+        obj->GetGameObject()->SetSelfActive(false);
     }
 }

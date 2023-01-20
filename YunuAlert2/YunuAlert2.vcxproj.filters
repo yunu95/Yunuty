@@ -72,6 +72,12 @@
     <ClInclude Include="RA2NavigationField2D.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="DebugTilePool.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DebugTile.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="YunuAlert2.cpp">
@@ -108,6 +114,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="RA2NavigationField2D.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DebugTilePool.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DebugTile.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

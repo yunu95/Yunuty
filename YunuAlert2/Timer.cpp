@@ -16,9 +16,12 @@ void Timer::Update(double deltaTime)
 
         if (elapsed == duration)
         {
-            isActive = false;
-            if(onFinished)
-            onFinished();
+            if (isRepeating)
+                elapsed = 0;
+            else
+                isActive = false;
+            if (onFinished)
+                onFinished();
         }
     }
 }

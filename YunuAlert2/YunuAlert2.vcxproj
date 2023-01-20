@@ -141,6 +141,8 @@
   <ItemGroup>
     <ClInclude Include="Animation.h" />
     <ClInclude Include="DamageInfo.h" />
+    <ClInclude Include="DebugTile.h" />
+    <ClInclude Include="DebugTilePool.h" />
     <ClInclude Include="Destructible.h" />
     <ClInclude Include="EArmorType.h" />
     <ClInclude Include="framework.h" />
@@ -161,6 +163,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Animation.cpp" />
+    <ClCompile Include="DebugTile.cpp" />
+    <ClCompile Include="DebugTilePool.cpp" />
     <ClCompile Include="Destructible.cpp" />
     <ClCompile Include="Projectile.cpp" />
     <ClCompile Include="RA2NavigationField2D.cpp" />

@@ -55,7 +55,7 @@ void YunutyEngine::Scene::ReceiveChild(remove_reference<unique_ptr<GameObject>>:
     childIndexMap.insert(make_pair(ptr, childrenIndexed.size()));
     childrenIndexed.push_back(ptr);
 }
-int YunutyEngine::Scene::GetChildIndex(GameObject* child)
+int YunutyEngine::Scene::GetChildIndex(const GameObject* child)const
 {
-    return childIndexMap[child];
+    return childIndexMap.find(child)->second;
 }

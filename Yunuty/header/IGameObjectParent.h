@@ -16,10 +16,10 @@ namespace YunutyEngine
 
     class IGameObjectParent
     {
-     private:
+    private:
         virtual unique_ptr<YunutyEngine::GameObject> MoveChild(GameObject* child) = 0;
         virtual void ReceiveChild(remove_reference<unique_ptr<GameObject>>::type&& child) = 0;
-        virtual int GetChildIndex(GameObject* child) = 0;
+        virtual int GetChildIndex(const GameObject* child)const = 0;
     public:
         virtual const vector<GameObject*>& GetChildren()const = 0;
         friend GameObject;

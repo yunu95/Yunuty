@@ -4,6 +4,7 @@
 #include "IGameObjectParent.h"
 #include <unordered_map>
 #include "Transform.h"
+#include "Cache.h"
 #include <functional>
 
 #ifdef YUNUTY_EXPORTS
@@ -24,22 +25,23 @@ namespace YunutyEngine
     {
     private:
         Scene* scene = nullptr;
-        string name="";
+        string name = "";
         bool selfActive = true;
-        int childrenNum=0;
+        int childrenNum = 0;
         IGameObjectParent* parent = nullptr;
         GameObject* parentGameObject = nullptr;
         Transform* transform;
         unordered_map<GameObject*, unique_ptr<GameObject>> children;
         vector<GameObject*> childrenIndexed;
-        unordered_map<GameObject*, int> childIndexMap;
+        unordered_map<const GameObject*, int> childIndexMap;
+        mutable cache<int> cachedSceneIndex;
         unordered_map<Component*, unique_ptr<Component>> components;
         GameObject(IGameObjectParent* parent);
         void DoThingsOnParents(function<void(GameObject*)> todo);
     protected:
         unique_ptr<YunutyEngine::GameObject> MoveChild(GameObject* child) override;
         void ReceiveChild(remove_reference<unique_ptr<GameObject>>::type&& child) override;
-        int GetChildIndex(GameObject* child) override;
+        int GetChildIndex(const GameObject* child)const override;
     public:
         GameObject(GameObject&) = delete;
         GameObject& operator=(GameObject&) = delete;
@@ -89,10 +91,11 @@ namespace YunutyEngine
         GameObject* GetParentGameObject();
         Scene* GetScene();
         void SetParent(IGameObjectParent* parent = nullptr);
-        int GetChildIndex();
-        int GetSceneIndex();
+        int GetChildIndex()const;
+        int GetSceneIndex()const;
         string getName()const;
         void setName(const string& name);
+        void SetCacheDirty();
 
         friend Scene;
         friend YunutyCycle;

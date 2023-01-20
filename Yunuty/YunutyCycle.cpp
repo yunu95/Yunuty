@@ -78,6 +78,8 @@ void YunutyEngine::YunutyCycle::ThreadUpdate()
         (*i)->Update();
     //i->second->Update();
 
+    for (auto each : GetGameObjects(false))
+        each->SetCacheDirty();
     ActiveComponentsDo(&Component::Update);
 
     Collider2D::InvokeCollisionEvents();
@@ -113,6 +115,14 @@ void YunutyEngine::YunutyCycle::ActiveComponentsDo(void (Component::* method)())
 vector<Component*> YunutyEngine::YunutyCycle::GetActiveComponents()
 {
     vector<Component*> ret;
+    for (auto eachGameObj : GetGameObjects())
+        for (auto component = eachGameObj->components.begin(); component != eachGameObj->components.end(); component++)
+            ret.push_back(component->first);
+    return ret;
+}
+vector<GameObject*> YunutyEngine::YunutyCycle::GetGameObjects(bool onlyActive)
+{
+    vector<GameObject*> ret;
     YunutyEngine::IGameObjectParent* gameObjectParent = Scene::getCurrentScene();
     if (Scene::getCurrentScene())
     {
@@ -125,13 +135,10 @@ vector<Component*> YunutyEngine::YunutyCycle::GetActiveComponents()
         {
             auto gameObject = objectsStack.top();
             objectsStack.pop();
-            if (!gameObject->GetSelfActive())
+            if (!(onlyActive && gameObject->GetSelfActive()))
                 continue;
 
-
-            for (auto each = gameObject->components.begin(); each != gameObject->components.end(); each++)
-                ret.push_back(each->first);
-
+            ret.push_back(gameObject);
             for (auto each = gameObject->children.begin(); each != gameObject->children.end(); each++)
                 objectsStack.push(each->first);
         }

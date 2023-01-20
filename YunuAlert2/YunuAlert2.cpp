@@ -64,7 +64,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     auto map_terrain = defaultScene.AddGameObject();
     map_terrain->AddComponent<D2DSprite>()->SetSpriteFilePath(L"map/map.png");
     map_terrain->GetComponent<D2DSprite>()->SetDrawRect(Rect(1920 * 4, 1080 * 4));
-    map_terrain->AddComponent<RA2NavigationField2D>()->SetField(Rect(1920 * 4, 1080 * 4), 30*5);
+    map_terrain->AddComponent<RA2NavigationField2D>()->SetField(Rect(1920 * 4, 1080 * 4), 30);
     map_terrain->GetComponent<RA2NavigationField2D>()->LoadTerrainData(L"map/terrainfo.png");
     Vector2d(0, 1).GetAngleDegree();
     Vector2d(-0.777, 0.777).GetAngleDegree();
@@ -108,6 +108,10 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     RTSInterfaceManager->GetComponent<RTSControlInterface>()->dragRectCollider = UI_SelectRect->GetComponent<BoxCollider2D>();
 
     RTSInterfaceManager->GetComponent<RTSControlInterface>()->selectedUnits.insert(GI0->GetComponent<Unit>());
+
+    auto debugTilePool = defaultScene.AddGameObject();
+    debugTilePool->AddComponent<DebugTilePool>();
+    debugTilePool->GetComponent<DebugTilePool>()->Borrow(Vector2d::zero, 50, D2D1::ColorF::Red);
 
     YunutyEngine::D2D::D2DCycle::GetInstance().Play();
     // Main message loop:

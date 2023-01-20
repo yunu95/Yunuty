@@ -170,8 +170,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="BoxCollider2D.cpp" />
+    <ClCompile Include="Cache.cpp" />
     <ClCompile Include="CircleCollider2D.cpp" />
     <ClCompile Include="Collider2D.cpp" />
+    <ClCompile Include="Curve.cpp" />
     <ClCompile Include="D2DAnimatedSprite.cpp" />
     <ClCompile Include="D2DRectangle.cpp" />
     <ClCompile Include="D2DSprite.cpp" />
@@ -214,6 +216,8 @@
     <ClCompile Include="YunutyCycle.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="header\Cache.h" />
+    <ClInclude Include="header\Curve.h" />
     <ClInclude Include="header\CanvasRenderSpace.h" />
     <ClInclude Include="header\D2DSprite.h" />
     <ClInclude Include="header\D2DAnimatedSprite.h" />
