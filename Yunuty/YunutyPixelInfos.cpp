@@ -1,5 +1,5 @@
+#include "YunuD2DGraphicCore.h"
 #include "YunutyPixelInfos.h"
-
 using namespace std;
 using namespace YunutyEngine::D2D;
 

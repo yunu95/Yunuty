@@ -1,3 +1,4 @@
+#include "YunuD2DGraphicCore.h"
 #include "pch.h"
 #include "YunutyPixel.h"
 

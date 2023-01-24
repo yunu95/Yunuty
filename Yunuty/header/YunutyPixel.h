@@ -1,5 +1,4 @@
 #pragma once
-#include "Pixel.h"
 
 #ifdef YUNUTY_EXPORTS
 #define YUNUTY_API __declspec(dllexport)
@@ -7,6 +6,10 @@
 #define YUNUTY_API __declspec(dllimport)
 #endif
 
+namespace YunuD2D
+{
+    struct Pixel;
+}
 namespace YunutyEngine
 {
     namespace D2D

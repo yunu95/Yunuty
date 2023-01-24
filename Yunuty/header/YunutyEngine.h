@@ -30,7 +30,6 @@
 #include "YunutyTime.h"
 #include "Time.h"
 #include "WinAPIBitmapImage.h"
-#include "YunuD2DGraphicCore.h"
 #include "RigidBody2D.h"
 #include "Collider2D.h"
 #include "Collision2D.h"

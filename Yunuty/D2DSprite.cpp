@@ -1,3 +1,4 @@
+#include "YunuD2DGraphicCore.h"
 #include "D2DSprite.h"
 void D2DSprite::Render(D2D1::Matrix3x2F transform)
 {

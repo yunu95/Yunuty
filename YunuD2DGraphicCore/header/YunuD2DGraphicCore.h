@@ -6,6 +6,7 @@
 #include <vector>
 #include <unordered_map>
 #include <memory>
+#include <string>
 
 #ifdef YUNUD2DGRAPHICCORE_EXPORTS
 #define YUNUD2DGRAPHICCORE_API __declspec(dllexport)

@@ -1,3 +1,4 @@
+#include "YunuD2DGraphicCore.h"
 #include "YunutyEngine.h"
 #include "D2DGraphic.h"
 
