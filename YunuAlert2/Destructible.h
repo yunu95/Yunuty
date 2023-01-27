@@ -1,11 +1,13 @@
 #pragma once
+#include "DamageInfo.h"
 #include "YunutyEngine.h"
 
 using namespace YunutyEngine;
 class Destructible : public Component
 {
 public:
-    void Kill();
+    virtual void ReceiveDamage(DamageInfo damageInfo) {}
+    virtual void Kill()=0;
 public:
     string name;
     double hp;

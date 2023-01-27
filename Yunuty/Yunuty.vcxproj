@@ -137,7 +137,7 @@
       <AdditionalIncludeDirectories>$(SolutionDir)YunuD2DGraphicCore\header\;$(ProjectDir)header\</AdditionalIncludeDirectories>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>YunutyEngine.h</PrecompiledHeaderFile>
-      <LanguageStandard>Default</LanguageStandard>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

@@ -34,7 +34,7 @@ LRESULT CALLBACK D2DCamera::Render(HWND hWnd, UINT message, WPARAM wParam, LPARA
             graphics.push_back(each);
     }
 
-    sort(graphics.begin(), graphics.end(), [](const D2DGraphic* item1,const D2DGraphic* item2)->bool
+    sort(graphics.begin(), graphics.end(), [](const D2DGraphic* item1, const D2DGraphic* item2)->bool
         {
             return item1->GetGameObject()->GetSceneIndex() < item2->GetGameObject()->GetSceneIndex();
         });
@@ -49,9 +49,9 @@ LRESULT CALLBACK D2DCamera::Render(HWND hWnd, UINT message, WPARAM wParam, LPARA
         camPos = GetTransform()->GetWorldPosition();
         pos = each->GetTransform()->GetWorldPosition();
         scale = each->GetTransform()->GetWorldScale();
-        eachTransform = eachTransform * ScaleTransform(scale.x, scale.y);
+        eachTransform = eachTransform * ScaleTransform(scale.x * 1 / zoomOutFactor, scale.y * 1 / zoomOutFactor);
         eachTransform = eachTransform * RotationTransform(each->GetTransform()->GetWorldRotation().Euler().z);
-        eachTransform = eachTransform * TranslationTransform(halvedRenderSize.width + pos.x - camPos.x, halvedRenderSize.height - (pos.y - camPos.y));
+        eachTransform = eachTransform * TranslationTransform(halvedRenderSize.width + (pos.x - camPos.x) * 1 / zoomOutFactor, halvedRenderSize.height - (pos.y - camPos.y) * 1 / zoomOutFactor);
 
         each->Render(eachTransform);
     }
@@ -74,9 +74,9 @@ LRESULT CALLBACK D2DCamera::Render(HWND hWnd, UINT message, WPARAM wParam, LPARA
         camPos = Vector2d::zero;
         pos = each->GetTransform()->GetWorldPosition();
         scale = each->GetTransform()->GetWorldScale();
-        eachTransform = eachTransform * ScaleTransform(scale.x, scale.y);
+        eachTransform = eachTransform * ScaleTransform(scale.x * 1 / zoomOutFactor, scale.y * 1 / zoomOutFactor);
         eachTransform = eachTransform * RotationTransform(each->GetTransform()->GetWorldRotation().Euler().z);
-        eachTransform = eachTransform * TranslationTransform(halvedRenderSize.width + pos.x - camPos.x, halvedRenderSize.height - (pos.y - camPos.y));
+        eachTransform = eachTransform * TranslationTransform((halvedRenderSize.width + pos.x - camPos.x) * 1 / zoomOutFactor, (halvedRenderSize.height - (pos.y - camPos.y)) * 1 / zoomOutFactor);
 
         each->Render(eachTransform);
     }
@@ -108,9 +108,12 @@ D2D1::Matrix3x2F D2DCamera::TranslationTransform(float dx, float dy)
     ret.dy = dy;
     return ret;
 }
-Rect D2DCamera::GetScaledResolution()
+void D2DCamera::SetZoomOutFactor(double zoomOutFactor)
 {
-    return Rect(resolutionW * resolutionFactor, resolutionH * resolutionFactor);
+    if (zoomOutFactor > 0)
+        this->zoomOutFactor = zoomOutFactor;
+    else
+        this->zoomOutFactor = 0;
 }
 D2DCamera* D2DCamera::GetMainD2DCamera()
 {

@@ -36,7 +36,7 @@ void RTSControlInterface::Update()
         for (auto each : dragRectCollider->GetOverlappedColliders())
         {
             Unit* unit;
-            if (unit = each->GetGameObject()->GetComponent<Unit>())
+            if (unit = Unit::GetUnitFromCollider(each))
                 selectedUnits.insert(unit);
         }
     }

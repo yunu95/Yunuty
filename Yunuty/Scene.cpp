@@ -39,6 +39,11 @@ unique_ptr<YunutyEngine::GameObject> YunutyEngine::Scene::MoveChild(GameObject* 
 {
     unique_ptr<YunutyEngine::GameObject> ret = move(children[child]);
     children.erase(child);
+    auto erasedIndex = childIndexMap[child];
+    childIndexMap.erase(child);
+    for (auto& each : childIndexMap)
+        if (each.second > erasedIndex)
+            each.second--;
     return ret;
 }
 

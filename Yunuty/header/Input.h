@@ -3,6 +3,7 @@
 #include "EKeycode.h"
 #include "GlobalComponent.h"
 #include "Vector2.h"
+#include <dinput.h>
 
 // À¯¿ëÇÔ
 // GetAsyncKeyState
@@ -21,6 +22,7 @@ namespace YunutyEngine
     private:
         static unique_ptr<Input> instance;
     protected:
+        //IDirectInput8* directInput;
         Input();
         virtual bool m_isKeyDown(KeyCode keyCode) = 0;
         virtual bool m_isKeyPushed(KeyCode keyCode) = 0;

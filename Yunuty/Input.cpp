@@ -9,6 +9,7 @@ YunutyEngine::Input::Input()
 {
     if (YunutyEngine::Input::instance.get() == nullptr)
         instance = unique_ptr<Input>(this);
+    //DirectInput8Create(GetModuleHandle(NULL), DIRECTINPUT_VERSION, IID_IDirectInput8, (void**)&directInput, NULL);
 }
 // 해당 키코드와 일치하는 키가 눌러져 있다면 참을, 눌러져 있지 않다면 거짓을 반환합니다.
 // 키가 계속 눌려져 있는 상태라면 매 프레임마다 참을 반환합니다.

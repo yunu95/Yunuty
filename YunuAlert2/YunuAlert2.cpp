@@ -20,7 +20,8 @@ BOOL                InitInstance(HINSTANCE, int);
 LRESULT CALLBACK    WndProc(HWND, UINT, WPARAM, LPARAM);
 INT_PTR CALLBACK    About(HWND, UINT, WPARAM, LPARAM);
 
-GameObject* SpawnGI(const Vector2d& position, Scene& scene);
+GameObject* SpawnGI(const Vector2d& position, Scene& scene, int ownerIndex = 0);
+GameObject* SpawnConscript(const Vector2d& position, Scene& scene, int ownerIndex = 1);
 
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     _In_opt_ HINSTANCE hPrevInstance,
@@ -94,10 +95,12 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     UI_HUD->GetComponent<D2DSprite>()->SetSpriteFilePath(L"UI/HUD.png");
     UI_HUD->GetComponent<D2DSprite>()->SetDrawRect(Rect(1920, 1080));
 
-    auto GI0 = SpawnGI(Vector2d(100, 500), defaultScene);
+    auto GI0 = SpawnGI(Vector2d(100, 500), defaultScene, 1);
     auto GI1 = SpawnGI(Vector2d(150, 500), defaultScene);
     auto GI2 = SpawnGI(Vector2d(200, 500), defaultScene);
     auto GI3 = SpawnGI(Vector2d(250, 500), defaultScene);
+    GI3->GetTransform()->rotation = Quaternion(Vector3d(0,0,130));
+    auto csrpt0 = SpawnConscript(Vector2d(50, 100), defaultScene);
 
     auto UI_SelectRect = defaultScene.AddGameObject();
     UI_SelectRect->AddComponent<D2DRectangle>();
@@ -128,52 +131,6 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     return (int)msg.wParam;
 }
 
-
-
-//
-//  FUNCTION: MyRegisterClass()
-//
-//  PURPOSE: Registers the window class.
-//
-
-//
-//   FUNCTION: InitInstance(HINSTANCE, int)
-//
-//   PURPOSE: Saves instance handle and creates main window
-//
-//   COMMENTS:
-//
-//        In this function, we save the instance handle in a global variable and
-//        create and display the main program window.
-//
-BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
-{
-    hInst = hInstance; // Store instance handle in our global variable
-
-    HWND hWnd = CreateWindowW(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW,
-        CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, nullptr, nullptr, hInstance, nullptr);
-
-    if (!hWnd)
-    {
-        return FALSE;
-    }
-
-    ShowWindow(hWnd, nCmdShow);
-    UpdateWindow(hWnd);
-
-    return TRUE;
-}
-
-//
-//  FUNCTION: WndProc(HWND, UINT, WPARAM, LPARAM)
-//
-//  PURPOSE: Processes messages for the main window.
-//
-//  WM_COMMAND  - process the application menu
-//  WM_PAINT    - Paint the main window
-//  WM_DESTROY  - post a quit message and return
-//
-//
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
     switch (message)
@@ -231,16 +188,43 @@ INT_PTR CALLBACK About(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
     }
     return (INT_PTR)FALSE;
 }
-GameObject* SpawnGI(const Vector2d& position, Scene& scene)
+GameObject* SpawnGI(const Vector2d& position, Scene& scene, int ownerIndex)
 {
     auto GI = scene.AddGameObject();
     GI->GetTransform()->position = position;
     GI->AddComponent<RA2UnitGraphic>()->SetUnitSprites(L"GI");
     GI->GetComponent<RA2UnitGraphic>()->PlayMove();
     GI->AddComponent<NavigationUnit2D>();
-    GI->AddComponent<CircleCollider2D>();
+    GI->AddComponent<CircleCollider2D>()->SetRadius(200);
+#if _DEBUG
+    GI->AddComponent<D2DCircle>()->radius = 200;
+    GI->GetComponent<D2DCircle>()->filled = false;
+    GI->GetComponent<D2DCircle>()->border = 5;
+#endif
     GI->AddComponent<Unit>();
+    GI->GetComponent<Unit>()->ownerIndex = ownerIndex;
+    GI->GetComponent<Unit>()->SetUnitCollider(GI->AddComponent<CircleCollider2D>());
     GI->GetComponent<Unit>()->unitGraphic = GI->GetComponent<RA2UnitGraphic>();
     GI->GetComponent<Unit>()->navUnitComponent = GI->GetComponent<NavigationUnit2D>();
     return GI;
+}
+GameObject* SpawnConscript(const Vector2d& position, Scene& scene, int ownerIndex)
+{
+    auto conscript = scene.AddGameObject();
+    conscript->GetTransform()->position = position;
+    conscript->AddComponent<RA2UnitGraphic>()->SetUnitSprites(L"Conscript");
+    conscript->GetComponent<RA2UnitGraphic>()->PlayMove();
+    conscript->AddComponent<NavigationUnit2D>();
+    conscript->AddComponent<CircleCollider2D>()->SetRadius(130);
+#if _DEBUG
+    conscript->AddComponent<D2DCircle>()->radius = 130;
+    conscript->GetComponent<D2DCircle>()->filled = false;
+    conscript->GetComponent<D2DCircle>()->border = 1;
+#endif
+    conscript->AddComponent<Unit>();
+    conscript->GetComponent<Unit>()->ownerIndex = ownerIndex;
+    conscript->GetComponent<Unit>()->SetUnitCollider(conscript->AddComponent<CircleCollider2D>());
+    conscript->GetComponent<Unit>()->unitGraphic = conscript->GetComponent<RA2UnitGraphic>();
+    conscript->GetComponent<Unit>()->navUnitComponent = conscript->GetComponent<NavigationUnit2D>();
+    return conscript;
 }

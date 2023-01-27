@@ -1,6 +1,8 @@
 #include "Unit.h"
 #include "YunuAlert2.h"
 
+unordered_map<Collider2D*, Unit*> Unit::unitColliderMap;
+
 Unit::Unit()
 {
 }
@@ -22,8 +24,13 @@ void Unit::MoveCommand(Vector2d coord)
 #else
     movePathQueue = NavigationField2D::GetAssignedField(source)->RequestPath(source, coord);
 #endif
-    if (movePathQueue.empty())
+    if (state == UnitState::Dying)
         return;
+    if (movePathQueue.empty())
+    {
+        unitGraphic->PlayIdle();
+        return;
+    }
 #ifdef _DEBUG
     if (DebugTilePool::instance->poolObjectsSize() == DebugTilePool::instance->expendableObjectsSize())
     {
@@ -49,14 +56,14 @@ void Unit::MoveCommand(Vector2d coord)
             auto borrowed = DebugTilePool::instance->Borrow(navField->TileToWorldLocaction(*each), navField->GetTileSize(), D2D1::ColorF::Red);
             borrowed->SetGlowingOffset(0.5 - 0.5 * (each->g_score / max_g));
         }
-        }
+    }
 #else
 #endif
 
     movementTimer.onFinished = [this, coord]() { this->navUnitComponent->ReportStatus(); this->MoveCommand(coord); };
     Move(movePathQueue.front());
     movePathQueue.pop();
-    }
+}
 void Unit::DeployCommand()
 {
 }
@@ -64,11 +71,29 @@ void Unit::DeployCommand()
 void Unit::ChangeUnitType()
 {
 }
-void Unit::Spawn()
-{
-}
 void Unit::ReceiveDamage(DamageInfo damageInfo)
 {
+    hp -= damageInfo.damage;
+    if (hp < 0)
+        Kill();
+}
+void Unit::Kill()
+{
+    attackCooldownTimer.isActive = false;
+    movementTimer.isActive = false;
+    state = UnitState::Dying;
+    unitGraphic->PlayDie();
+}
+void Unit::SetUnitCollider(Collider2D* unitCollider)
+{
+    this->unitCollider = unitCollider;
+    unitColliderMap[unitCollider] = this;
+}
+Unit* Unit::GetUnitFromCollider(Collider2D* collider)
+{
+    if (unitColliderMap.find(collider) == unitColliderMap.end())
+        return nullptr;
+    return unitColliderMap[collider];
 }
 
 void Unit::Update()
@@ -76,15 +101,60 @@ void Unit::Update()
     attackCooldownTimer.Update(Time::GetDeltaTime());
     movementTimer.Update(Time::GetDeltaTime());
 }
+void Unit::OnCollisionEnter2D(const Collision2D& collision)
+{
+    if (state == UnitState::Dying)
+        return;
+
+    auto otherUnit = GetUnitFromCollider(collision.m_OtherCollider);
+    if (otherUnit == nullptr)
+        return;
+    if (otherUnit->state == UnitState::Dying)
+        return;
+    if (otherUnit->ownerIndex == this->ownerIndex)
+        return;
+
+    Attack(otherUnit);
+}
+void Unit::OnCollisionExit2D(const Collision2D& collision)
+{
+    if (state == UnitState::Dying)
+        return;
+
+    if (attackTarget == GetUnitFromCollider(collision.m_OtherCollider))
+        StopAttack();
+}
 
 void Unit::Attack(Destructible* target)
 {
+    attackCooldownTimer.duration = attackCooltime;
+    attackCooldownTimer.isRepeating = true;
+    attackTarget = target;
+    unitGraphic->PlayAttack();
+    attackCooldownTimer.onUpdate = [this](double t)
+    {
+        unitGraphic->SetFacingAngle(Vector2d((attackTarget->GetTransform()->GetWorldPosition() - GetTransform()->GetWorldPosition())).GetAngleDegree());
+    };
+    attackCooldownTimer.onFinished = [this]()
+    {
+        if (((Unit*)attackTarget)->state == UnitState::Dying)
+            return;
+        Attack(attackTarget);
+    };
+    attackTarget->ReceiveDamage(DamageInfo(attackDamage));
+    attackCooldownTimer.Start();
+}
+void Unit::StopAttack()
+{
+    attackCooldownTimer.isActive = false;
 }
 void Unit::AttackMove(Vector2d coord)
 {
 }
 void Unit::Move(Vector2d coord)
 {
+    if (state == UnitState::Dying)
+        return;
     auto src = GetTransform()->GetWorldPosition();
     auto transform = GetTransform();
     unitGraphic->SetFacingAngle((coord - src).GetAngleDegree());

@@ -27,7 +27,7 @@ namespace YunutyEngine
             // resolution defines the rect of area shown by camera
             double resolutionW = 1920;
             double resolutionH = 1080;
-            double resolutionFactor = 1;
+            double zoomOutFactor = 1;
             D2D1::Matrix3x2F ScaleTransform(float x, float y);
             D2D1::Matrix3x2F RotationTransform(float angle);
             D2D1::Matrix3x2F TranslationTransform(float dx, float dy);
@@ -36,7 +36,9 @@ namespace YunutyEngine
             virtual void Render() override;
             LRESULT CALLBACK Render(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
         public:
-            Rect GetScaledResolution();
+            void SetZoomOutFactor(double zoomOutFactor);
+            double GetZoomOutFactor() { return this->zoomOutFactor; }
+            Rect GetResolution() { return Rect(resolutionW, resolutionH); }
             static D2DCamera* GetMainD2DCamera();
             friend YunutyCycle;
             friend D2DCycle;

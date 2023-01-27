@@ -145,11 +145,13 @@
     <ClInclude Include="SpeedMeter.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="YunutyClient.h" />
+    <ClInclude Include="ZoomableCamera.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ShakyFella.cpp" />
     <ClCompile Include="SpeedMeter.cpp" />
     <ClCompile Include="YunutyClient.cpp" />
+    <ClCompile Include="ZoomableCamera.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="YunutyClient.rc" />

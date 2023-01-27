@@ -53,7 +53,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
     Scene defaultScene;
     Scene::LoadScene(&defaultScene);
-    auto cam = defaultScene.AddGameObject()->AddComponent<D2DCamera>();
+    auto cam = defaultScene.AddGameObject()->AddComponent<ZoomableCamera>();
 
     auto playerCicle = defaultScene.AddGameObject();
     playerCicle->GetTransform()->position.x = 200;
@@ -122,7 +122,6 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     lowerWall->GetComponent<D2DRectangle>()->filled = true;
     lowerWall->AddComponent<RigidBody2D>()->mass = 1000000000;
 
-
     YunutyEngine::D2D::D2DCycle::GetInstance().Initialize(hInstance, wcex, nCmdShow, IDS_APP_TITLE, IDC_YUNUTYCLIENT);
     YunutyEngine::D2D::D2DCycle::GetInstance().Play();
 
@@ -134,16 +133,6 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
             TranslateMessage(&msg);
             DispatchMessage(&msg);
         }
-        D2D1_ELLIPSE ellipse;
-        ellipse.point.x = 10;
-        ellipse.point.y = 10;
-        ellipse.radiusX = 20;
-        ellipse.radiusY = 20;
-
-
-        //YunuD2D::YunuD2DGraphicCore::GetInstance()->BeginDraw();
-        //YunuD2D::YunuD2DGraphicCore::GetInstance()->DrawCircle(ellipse.point,5);
-        //YunuD2D::YunuD2DGraphicCore::GetInstance()->EndDraw();
     }
 
     return (int)msg.wParam;

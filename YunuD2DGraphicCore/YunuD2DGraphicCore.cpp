@@ -158,7 +158,7 @@ void YunuD2D::YunuD2DGraphicCore::DrawLine(const D2D1_POINT_2F& start, const D2D
 }
 void YunuD2D::YunuD2DGraphicCore::DrawCircle(const D2D1::Matrix3x2F& transform, const float radius, float drawWidth, D2D1::ColorF color, bool filled)
 {
-    DrawEllipse(radius, radius, drawWidth, transform, color, filled);
+    DrawEllipse(radius * transform.m11, radius * transform.m22, drawWidth * min(transform.m11, transform.m22), transform, color, filled);
 }
 void YunuD2D::YunuD2DGraphicCore::DrawEllipse(float radiusX, float radiusY, float drawWidth, const D2D1::Matrix3x2F& transform, D2D1::ColorF color, bool filled)
 {
@@ -167,11 +167,10 @@ void YunuD2D::YunuD2DGraphicCore::DrawEllipse(float radiusX, float radiusY, floa
     ellipse.radiusY = radiusY;
     ellipse.point = transform.TransformPoint(D2D1_POINT_2F());
     ID2D1SolidColorBrush* brush = GetSolidColorBrush(color);
-    renderTarget->DrawEllipse(ellipse, brush, 1);
+    renderTarget->DrawEllipse(ellipse, brush, drawWidth);
 
     if (filled)
         renderTarget->FillEllipse(ellipse, brush);
-
 }
 void YunuD2D::YunuD2DGraphicCore::DrawTextImage(wstring str, const D2D1::Matrix3x2F& transform, D2D1::ColorF color, double fontSize, double width, double height)
 {
@@ -188,15 +187,15 @@ void YunuD2D::YunuD2DGraphicCore::DrawTextImage(wstring str, const D2D1::Matrix3
         DWRITE_FONT_WEIGHT_NORMAL,
         DWRITE_FONT_STYLE_NORMAL,
         DWRITE_FONT_STRETCH_NORMAL,
-        fontSize,
+        fontSize * min(transform.m11, transform.m22),
         L"",
         &textFormat
     );
-    writeFactory->CreateTextLayout(str.c_str(), str.length(), textFormat, width, height, &textLayout);
+    writeFactory->CreateTextLayout(str.c_str(), str.length(), textFormat, width * transform.m11, height * transform.m22, &textLayout);
     textLayout->SetTextAlignment(DWRITE_TEXT_ALIGNMENT_CENTER);
     textLayout->SetParagraphAlignment(DWRITE_PARAGRAPH_ALIGNMENT_CENTER);
-    origin.x = transform.dx - 0.5 * width;
-    origin.y = transform.dy - 0.5 * height;
+    origin.x = transform.dx - 0.5 * width * transform.m11;
+    origin.y = transform.dy - 0.5 * height * transform.m22;
 
     renderTarget->DrawTextLayout(origin, textLayout, brush);
     textLayout->Release();
@@ -313,11 +312,17 @@ void YunuD2D::YunuD2DGraphicCore::DrawSprite(wstring filePath, const D2D1::Matri
     rect.right = transform.dx + 0.5 * width * transform.m11;
     rect.left = transform.dx - 0.5 * width * transform.m11;
 
+    /*rect.bottom = 0.5 * height;
+    rect.top = 0.5 * height;
+    rect.right = 0.5 * width;
+    rect.left = 0.5 * width;*/
     if (rect.left >= renderTargetSize.width || rect.top >= renderTargetSize.height ||
         rect.right <= 0.0f || rect.bottom <= 0.0f)
         return;
 
+    //renderTarget->SetTransform(transform);
     renderTarget->DrawBitmap(sprite, rect);
+    //renderTarget->SetTransform(D2D1::Matrix3x2F::Identity());
 }
 PixelInfos YunuD2DGraphicCore::GetPixelInfos(wstring imgFilepath)
 {

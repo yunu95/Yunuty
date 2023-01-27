@@ -22,8 +22,30 @@ D2DInput::D2DInput()
 
     rawKeyEnumMap.insert(make_pair('A', KeyCode::A));
     rawKeyEnumMap.insert(make_pair('B', KeyCode::B));
-    rawKeyEnumMap.insert(make_pair('a', KeyCode::a));
-    rawKeyEnumMap.insert(make_pair('b', KeyCode::b));
+    rawKeyEnumMap.insert(make_pair('C', KeyCode::C));
+    rawKeyEnumMap.insert(make_pair('D', KeyCode::D));
+    rawKeyEnumMap.insert(make_pair('E', KeyCode::E));
+    rawKeyEnumMap.insert(make_pair('F', KeyCode::F));
+    rawKeyEnumMap.insert(make_pair('G', KeyCode::G));
+    rawKeyEnumMap.insert(make_pair('H', KeyCode::H));
+    rawKeyEnumMap.insert(make_pair('I', KeyCode::I));
+    rawKeyEnumMap.insert(make_pair('J', KeyCode::J));
+    rawKeyEnumMap.insert(make_pair('K', KeyCode::K));
+    rawKeyEnumMap.insert(make_pair('L', KeyCode::L));
+    rawKeyEnumMap.insert(make_pair('M', KeyCode::M));
+    rawKeyEnumMap.insert(make_pair('N', KeyCode::N));
+    rawKeyEnumMap.insert(make_pair('O', KeyCode::O));
+    rawKeyEnumMap.insert(make_pair('P', KeyCode::P));
+    rawKeyEnumMap.insert(make_pair('Q', KeyCode::Q));
+    rawKeyEnumMap.insert(make_pair('R', KeyCode::R));
+    rawKeyEnumMap.insert(make_pair('S', KeyCode::S));
+    rawKeyEnumMap.insert(make_pair('T', KeyCode::T));
+    rawKeyEnumMap.insert(make_pair('U', KeyCode::U));
+    rawKeyEnumMap.insert(make_pair('V', KeyCode::V));
+    rawKeyEnumMap.insert(make_pair('W', KeyCode::W));
+    rawKeyEnumMap.insert(make_pair('X', KeyCode::X));
+    rawKeyEnumMap.insert(make_pair('Y', KeyCode::Y));
+    rawKeyEnumMap.insert(make_pair('Z', KeyCode::Z));
 }
 D2DInput::~D2DInput()
 {
@@ -100,9 +122,9 @@ bool D2DInput::m_isKeyLifted(KeyCode keyCode)
 Vector2d D2DInput::getMouseWorldPosition()
 {
     auto ret = getMousePositionNormalized();
-    auto camRes = D2DCamera::GetMainD2DCamera()->GetScaledResolution();
-    ret.x *= camRes.width;
-    ret.y *= camRes.height;
+    auto camRes = D2DCamera::GetMainD2DCamera()->GetResolution();
+    ret.x *= camRes.width * D2DCamera::GetMainD2DCamera()->GetZoomOutFactor();
+    ret.y *= camRes.height * D2DCamera::GetMainD2DCamera()->GetZoomOutFactor();
     ret += D2DCamera::GetMainD2DCamera()->GetTransform()->GetWorldPosition();
     return ret;
 }
