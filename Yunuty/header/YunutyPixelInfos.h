@@ -20,8 +20,9 @@ namespace YunutyEngine
     namespace D2D
     {
         class YunuD2DGraphicCore;
-        struct YUNUTY_API YunutyPixelInfos
+        class YUNUTY_API YunutyPixelInfos
         {
+        public:
             YunutyPixelInfos(const PixelInfos& pixelInfos);
             int width;
             int height;

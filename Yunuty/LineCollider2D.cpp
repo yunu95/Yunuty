@@ -2,15 +2,15 @@
 #include "LineCollider2D.h"
 using namespace YunutyEngine;
 
-bool LineCollider2D::isOverlappingWith(BoxCollider2D* other)
+bool LineCollider2D::isOverlappingWith(const BoxCollider2D* other)const
 {
     return Collider2D::isOverlapping(other, this);
 }
-bool LineCollider2D::isOverlappingWith(CircleCollider2D* other)
+bool LineCollider2D::isOverlappingWith(const CircleCollider2D* other)const
 {
     return Collider2D::isOverlapping(other, this);
 }
-bool LineCollider2D::isOverlappingWith(LineCollider2D* other)
+bool LineCollider2D::isOverlappingWith(const LineCollider2D* other)const
 {
     return Collider2D::isOverlapping(other, this);
 }

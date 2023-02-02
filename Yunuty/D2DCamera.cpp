@@ -34,6 +34,9 @@ LRESULT CALLBACK D2DCamera::Render(HWND hWnd, UINT message, WPARAM wParam, LPARA
             graphics.push_back(each);
     }
 
+#if _DEBUG
+    GameObject::messyIndexingCalled = 0;
+#endif
     sort(graphics.begin(), graphics.end(), [](const D2DGraphic* item1, const D2DGraphic* item2)->bool
         {
             return item1->GetGameObject()->GetSceneIndex() < item2->GetGameObject()->GetSceneIndex();
@@ -74,8 +77,8 @@ LRESULT CALLBACK D2DCamera::Render(HWND hWnd, UINT message, WPARAM wParam, LPARA
         camPos = Vector2d::zero;
         pos = each->GetTransform()->GetWorldPosition();
         scale = each->GetTransform()->GetWorldScale();
-        eachTransform = eachTransform * ScaleTransform(scale.x * 1 / zoomOutFactor, scale.y * 1 / zoomOutFactor);
-        eachTransform = eachTransform * RotationTransform(each->GetTransform()->GetWorldRotation().Euler().z);
+        eachTransform = eachTransform * ScaleTransform(float(scale.x / zoomOutFactor), float(scale.y / zoomOutFactor));
+        eachTransform = eachTransform * RotationTransform(float(each->GetTransform()->GetWorldRotation().Euler().z));
         eachTransform = eachTransform * TranslationTransform((halvedRenderSize.width + pos.x - camPos.x) * 1 / zoomOutFactor, (halvedRenderSize.height - (pos.y - camPos.y)) * 1 / zoomOutFactor);
 
         each->Render(eachTransform);
@@ -95,10 +98,10 @@ D2D1::Matrix3x2F D2DCamera::ScaleTransform(float x, float y)
 D2D1::Matrix3x2F D2DCamera::RotationTransform(float angle)
 {
     D2D1::Matrix3x2F ret = D2D1::Matrix3x2F::Identity();
-    ret.m11 = cos(angle * YunutyMath::Deg2Rad);
-    ret.m12 = -sin(angle * YunutyMath::Deg2Rad);
-    ret.m21 = sin(angle * YunutyMath::Deg2Rad);
-    ret.m22 = cos(angle * YunutyMath::Deg2Rad);
+    ret.m11 = (FLOAT)cos(angle * YunutyMath::Deg2Rad);
+    ret.m12 = (FLOAT)-sin(angle * YunutyMath::Deg2Rad);
+    ret.m21 = (FLOAT)sin(angle * YunutyMath::Deg2Rad);
+    ret.m22 = (FLOAT)cos(angle * YunutyMath::Deg2Rad);
     return ret;
 }
 D2D1::Matrix3x2F D2DCamera::TranslationTransform(float dx, float dy)

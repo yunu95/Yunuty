@@ -7,6 +7,8 @@
 #include "YunutyEngine.h"
 #include "SpeedMeter.h"
 #include "ShakyFella.h"
+#include "QuadTreeDebugger.h"
+#include "FPSBenchMark.h"
 
 #define MAX_LOADSTRING 100
 
@@ -54,7 +56,11 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     Scene defaultScene;
     Scene::LoadScene(&defaultScene);
     auto cam = defaultScene.AddGameObject()->AddComponent<ZoomableCamera>();
+    cam->GetGameObject()->AddComponent<D2DText>();
+    cam->GetGameObject()->AddComponent<FPSBenchMark>();
 
+    auto quadTreeDebugger = defaultScene.AddGameObject();
+    //quadTreeDebugger->AddComponent<QuadTreeDebugger>();
     auto playerCicle = defaultScene.AddGameObject();
     playerCicle->GetTransform()->position.x = 200;
     playerCicle->GetTransform()->position.y += 190;
@@ -67,22 +73,33 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     playerCicle->AddComponent<SpeedMeter>();
     playerCicle->AddComponent<D2DText>();
 
-    auto circle = defaultScene.AddGameObject();
-    circle->GetTransform()->position.x -= 230;
-    circle->GetTransform()->position.y += 90;
-    circle->AddComponent<CircleCollider2D>()->SetRadius(100);
-    circle->AddComponent<RigidBody2D>()->mass = 1;
-    circle->AddComponent<D2DCircle>()->border = 1;
-    circle->AddComponent<SpeedMeter>();
-    circle->AddComponent<D2DText>();
-    circle->GetComponent<D2DCircle>()->filled = false;
-    circle->GetComponent<D2DCircle>()->radius = 100;
+    for (int x = -5000; x < 5000; x += 500)
+        for (int y = -5000; y < 5000; y += 500)
+        {
+            auto circle = defaultScene.AddGameObject();
+            circle->GetTransform()->position.x = x;
+            circle->GetTransform()->position.y = y;
+            circle->AddComponent<CircleCollider2D>()->SetRadius(100);
+            circle->AddComponent<RigidBody2D>()->mass = 1;
+            circle->AddComponent<D2DCircle>()->border = 1;
+            circle->GetComponent<D2DCircle>()->filled = false;
+            circle->GetComponent<D2DCircle>()->radius = 100;
+        }
+
+    /*for (int i = 0; i < 50000; i++)
+    {
+        stringstream ss;
+        ss << i;
+        auto something = defaultScene.AddGameObject();
+        something->setName(ss.str());
+        something->AddComponent<D2DCircle>()->border = 1;
+    }*/
 
     auto leftWall = defaultScene.AddGameObject();
-    leftWall->GetTransform()->position.x = -900;
+    leftWall->GetTransform()->position.x = -10000;
     leftWall->AddComponent<BoxCollider2D>();
     leftWall->GetComponent<BoxCollider2D>()->SetWidth(100);
-    leftWall->GetComponent<BoxCollider2D>()->SetHeight(1000);
+    leftWall->GetComponent<BoxCollider2D>()->SetHeight(10000);
     leftWall->AddComponent<D2DRectangle>()->border = 1;
     leftWall->GetComponent<D2DRectangle>()->width = 100;
     leftWall->GetComponent<D2DRectangle>()->height = 1000;
@@ -90,10 +107,10 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     leftWall->AddComponent<RigidBody2D>()->mass = 1000000000;
 
     auto rightWall = defaultScene.AddGameObject();
-    rightWall->GetTransform()->position.x = 900;
+    rightWall->GetTransform()->position.x = 10000;
     rightWall->AddComponent<BoxCollider2D>();
     rightWall->GetComponent<BoxCollider2D>()->SetWidth(100);
-    rightWall->GetComponent<BoxCollider2D>()->SetHeight(1000);
+    rightWall->GetComponent<BoxCollider2D>()->SetHeight(10000);
     rightWall->AddComponent<D2DRectangle>()->border = 1;
     rightWall->GetComponent<D2DRectangle>()->width = 100;
     rightWall->GetComponent<D2DRectangle>()->height = 1000;
@@ -101,9 +118,9 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     rightWall->AddComponent<RigidBody2D>()->mass = 1000000000;
 
     auto upperWall = defaultScene.AddGameObject();
-    upperWall->GetTransform()->position.y = 500;
+    upperWall->GetTransform()->position.y = 5000;
     upperWall->AddComponent<BoxCollider2D>();
-    upperWall->GetComponent<BoxCollider2D>()->SetWidth(2000);
+    upperWall->GetComponent<BoxCollider2D>()->SetWidth(20000);
     upperWall->GetComponent<BoxCollider2D>()->SetHeight(100);
     upperWall->AddComponent<D2DRectangle>()->border = 1;
     upperWall->GetComponent<D2DRectangle>()->width = 2000;
@@ -112,9 +129,9 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     upperWall->AddComponent<RigidBody2D>()->mass = 1000000000;
 
     auto lowerWall = defaultScene.AddGameObject();
-    lowerWall->GetTransform()->position.y = -500;
+    lowerWall->GetTransform()->position.y = -5000;
     lowerWall->AddComponent<BoxCollider2D>();
-    lowerWall->GetComponent<BoxCollider2D>()->SetWidth(2000);
+    lowerWall->GetComponent<BoxCollider2D>()->SetWidth(20000);
     lowerWall->GetComponent<BoxCollider2D>()->SetHeight(100);
     lowerWall->AddComponent<D2DRectangle>()->border = 1;
     lowerWall->GetComponent<D2DRectangle>()->width = 2000;

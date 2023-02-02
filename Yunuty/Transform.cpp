@@ -20,7 +20,7 @@ Quaternion YunutyEngine::Transform::GetWorldRotation()const
         return rotation;
     return rotation * GetGameObject()->GetParentGameObject()->GetTransform()->GetWorldRotation();
 }
-Vector3d YunutyEngine::Transform::GetWorldScale()
+Vector3d YunutyEngine::Transform::GetWorldScale()const
 {
     if (GetGameObject()->GetParentGameObject() == nullptr)
         return scale;

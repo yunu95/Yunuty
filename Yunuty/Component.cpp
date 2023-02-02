@@ -4,11 +4,19 @@
 #include "Transform.h"
 
 using namespace YunutyEngine;
-YunutyEngine::GameObject* YunutyEngine::Component::GetGameObject()const
+YunutyEngine::GameObject* YunutyEngine::Component::GetGameObject()
 {
     return gameObject;
 }
-Transform* YunutyEngine::Component::GetTransform()const
+const YunutyEngine::GameObject* YunutyEngine::Component::GetGameObject()const
+{
+    return gameObject;
+}
+Transform* YunutyEngine::Component::GetTransform()
+{
+    return gameObject->GetTransform();
+}
+const Transform* YunutyEngine::Component::GetTransform()const
 {
     return gameObject->GetTransform();
 }

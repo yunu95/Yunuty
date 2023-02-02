@@ -43,8 +43,6 @@ void D2DAnimatedSprite::Update()
                 index--;
             }
         }
-
-
     }
 }
 const SpriteAnim* D2DAnimatedSprite::LoadAnimation(wstring folderName, double interval)

@@ -22,12 +22,14 @@ namespace YunutyEngine
     {
         friend Collider2D;
     private:
-        double radius;
+        double radius=0;
     public:
-        virtual bool isOverlappingWith(Collider2D* other) override;
-        virtual bool isOverlappingWith(BoxCollider2D* other) override;
-        virtual bool isOverlappingWith(CircleCollider2D* other) override;
-        virtual bool isOverlappingWith(LineCollider2D* other) override;
+        virtual double GetArea()const override;
+        virtual bool isOverlappingWith(const Collider2D* other)const override;
+        virtual bool isOverlappingWith(const BoxCollider2D* other)const override;
+        virtual bool isOverlappingWith(const CircleCollider2D* other)const override;
+        virtual bool isOverlappingWith(const LineCollider2D* other)const override;
+        virtual bool isInsideNode(const QuadTreeNode* node)const override;
         Interval projectedInterval(const Vector2d& v)const;
         void SetRadius(double radius);
     };

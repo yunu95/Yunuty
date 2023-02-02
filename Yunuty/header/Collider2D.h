@@ -26,6 +26,25 @@ namespace YunutyEngine
     class YUNUTY_API Collider2D abstract : public Component
     {
         // 쿼드트리 최적화 나중에 구현하기
+    public:
+        struct YUNUTY_API QuadTreeNode
+        {
+            static unique_ptr<QuadTreeNode> rootNode;
+            double GetArea() { return xInterval.GetLength() * yInterval.GetLength(); }
+            Interval xInterval;
+            Interval yInterval;
+            unique_ptr<QuadTreeNode> leftTop;
+            unique_ptr<QuadTreeNode> rightTop;
+            unique_ptr<QuadTreeNode> leftBottom;
+            unique_ptr<QuadTreeNode> rightBottom;
+            vector<Collider2D*> colliders;
+        };
+        const unordered_set<Collider2D*>& GetOverlappedColliders() const;
+        virtual double GetArea() const = 0;
+        virtual bool isOverlappingWith(const Collider2D* other) const = 0;
+        virtual bool isOverlappingWith(const BoxCollider2D* other) const = 0;
+        virtual bool isOverlappingWith(const CircleCollider2D* other) const = 0;
+        virtual bool isOverlappingWith(const LineCollider2D* other) const = 0;
     private:
         // called by yunuty cycle
         static void InvokeCollisionEvents();
@@ -36,22 +55,17 @@ namespace YunutyEngine
         Collider2D();
         virtual ~Collider2D();
 
-        static bool isOverlapping(BoxCollider2D* a, BoxCollider2D* b);
-        static bool isOverlapping(BoxCollider2D* a, CircleCollider2D* b);
-        static bool isOverlapping(CircleCollider2D* b, BoxCollider2D* a) { return isOverlapping(a, b); }
-        static bool isOverlapping(BoxCollider2D* a, LineCollider2D* b);
-        static bool isOverlapping(LineCollider2D* b, BoxCollider2D* a) { return isOverlapping(a,b); }
-        static bool isOverlapping(CircleCollider2D* a, CircleCollider2D* b);
-        static bool isOverlapping(CircleCollider2D* a, LineCollider2D* b);
-        static bool isOverlapping(LineCollider2D* b, CircleCollider2D* a) { return isOverlapping(a,b); }
-        static bool isOverlapping(LineCollider2D* a, LineCollider2D* b);
+        virtual bool isInsideNode(const QuadTreeNode* node)const = 0;
+        static bool isOverlapping(const BoxCollider2D* a, const BoxCollider2D* b);
+        static bool isOverlapping(const BoxCollider2D* a, const CircleCollider2D* b);
+        static bool isOverlapping(const CircleCollider2D* b, const BoxCollider2D* a) { return isOverlapping(a, b); }
+        static bool isOverlapping(const BoxCollider2D* a, const LineCollider2D* b);
+        static bool isOverlapping(const LineCollider2D* b, const BoxCollider2D* a) { return isOverlapping(a,b); }
+        static bool isOverlapping(const CircleCollider2D* a, const CircleCollider2D* b);
+        static bool isOverlapping(const CircleCollider2D* a, const LineCollider2D* b);
+        static bool isOverlapping(const LineCollider2D* b, const CircleCollider2D* a) { return isOverlapping(a,b); }
+        static bool isOverlapping(const LineCollider2D* a, const LineCollider2D* b);
 
-    public:
-        const unordered_set<Collider2D*>& GetOverlappedColliders() const;
-        virtual bool isOverlappingWith(Collider2D* other) = 0;
-        virtual bool isOverlappingWith(BoxCollider2D* other) = 0;
-        virtual bool isOverlappingWith(CircleCollider2D* other) = 0;
-        virtual bool isOverlappingWith(LineCollider2D* other) = 0;
         friend YunutyCycle;
     };
 }

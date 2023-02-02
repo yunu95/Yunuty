@@ -9,7 +9,6 @@
 #define YUNUTY_API __declspec(dllimport)
 #endif
 
-
 namespace YunutyEngine
 {
     class GameObject;
@@ -25,6 +24,6 @@ namespace YunutyEngine
         Quaternion GetWorldRotation()const;
         void SetWorldPosition(const Vector3d& position);
         void SetWorldRotation(const Quaternion& rotation);
-        Vector3d GetWorldScale();
+        Vector3d GetWorldScale()const;
     };
 }

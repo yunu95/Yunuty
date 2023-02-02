@@ -36,6 +36,12 @@
     <ClInclude Include="ZoomableCamera.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="QuadTreeDebugger.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FPSBenchMark.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="YunutyClient.cpp">
@@ -48,6 +54,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ZoomableCamera.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="QuadTreeDebugger.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FPSBenchMark.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -6,6 +6,22 @@
 using namespace YunutyEngine;
 
 unordered_set<Collider2D*> Collider2D::colliders2D;
+unique_ptr<Collider2D::QuadTreeNode> Collider2D::QuadTreeNode::rootNode = nullptr;
+
+struct PairHash {
+    template <class T1, class T2>
+    std::size_t operator()(const std::pair<T1, T2>& p) const {
+        auto h1 = std::hash<T1>{}(p.first);
+        auto h2 = std::hash<T2>{}(p.second);
+        return h1 ^ h2;
+    }
+};
+struct PairEqual {
+    template <class T1, class T2>
+    bool operator()(const std::pair<T1, T2>& p1, const std::pair<T1, T2>& p2) const {
+        return p1.first == p2.first && p1.second == p2.second;
+    }
+};
 
 Collider2D::Collider2D()
 {
@@ -17,46 +33,200 @@ Collider2D::~Collider2D()
 }
 void Collider2D::InvokeCollisionEvents()
 {
-    for (auto collider1 : colliders2D)
-        for (auto collider2 : colliders2D)
-            if (collider2 != collider1)
-                if (collider2->isOverlappingWith(collider1))
-                {
-                    Collision2D collision;
-                    collision.m_Collider = collider1;
-                    collision.m_Rigidbody = collider1->GetGameObject()->GetComponent<RigidBody2D>();
-                    collision.m_OtherCollider = collider2;
-                    collision.m_OtherRigidbody = collider2->GetGameObject()->GetComponent<RigidBody2D>();
+    // 쿼드트리 구성
+    {
+        const double k = 7;
+        QuadTreeNode::rootNode = make_unique<QuadTreeNode>();
+        double top = 0, bottom = 0, left = 0, right = 0;
+        double meanColliderArea = 0;
+        bool rectInitialized = false;
+        for (auto collider : colliders2D)
+        {
+            meanColliderArea += collider->GetArea();
+            auto pos = collider->GetTransform()->GetWorldPosition();
+            if (!rectInitialized)
+            {
+                left = right = pos.x;
+                top = bottom = pos.y;
+                rectInitialized = true;
+                continue;
+            }
 
-                    if (collider1->overlappedColliders.find(collider2) == collider1->overlappedColliders.end())
+            if (pos.x > right)
+                right = pos.x;
+            if (pos.x < left)
+                left = pos.x;
+            if (pos.y > top)
+                top = pos.y;
+            if (pos.y < bottom)
+                bottom = pos.y;
+        }
+        meanColliderArea /= colliders2D.size();
+
+        QuadTreeNode::rootNode->xInterval = Interval(left, right);
+        QuadTreeNode::rootNode->yInterval = Interval(bottom, top);
+        QuadTreeNode::rootNode->colliders = vector<Collider2D*>(colliders2D.begin(), colliders2D.end());
+        stack<QuadTreeNode*> quadTreesStack;
+        quadTreesStack.push(QuadTreeNode::rootNode.get());
+        while (!quadTreesStack.empty())
+        {
+            auto node = quadTreesStack.top();
+            quadTreesStack.pop();
+            if (node->GetArea() < meanColliderArea * k)
+                continue;
+            if (node->colliders.size() < k)
+                continue;
+
+            Vector2d center((node->xInterval.left + node->xInterval.right) / 2, (node->yInterval.left + node->yInterval.right) / 2);
+            node->leftTop = make_unique<QuadTreeNode>();
+            node->rightTop = make_unique<QuadTreeNode>();
+            node->leftBottom = make_unique<QuadTreeNode>();
+            node->rightBottom = make_unique<QuadTreeNode>();
+            node->leftTop->xInterval = Interval(node->xInterval.left, center.x);
+            node->leftTop->yInterval = Interval(center.y, node->yInterval.right);
+            node->rightTop->xInterval = Interval(center.x, node->xInterval.right);
+            node->rightTop->yInterval = Interval(center.y, node->yInterval.right);
+            node->leftBottom->xInterval = Interval(node->xInterval.left, center.x);
+            node->leftBottom->yInterval = Interval(node->yInterval.left, center.y);
+            node->rightBottom->xInterval = Interval(center.x, node->xInterval.right);
+            node->rightBottom->yInterval = Interval(node->yInterval.left, center.y);
+            for (QuadTreeNode* eachNode : { node->leftTop.get(),node->rightTop.get(),node->leftBottom.get(),node->rightBottom.get() })
+            {
+                for (auto eachCollider : node->colliders)
+                    if (eachCollider->isInsideNode(eachNode))
+                        eachNode->colliders.push_back(eachCollider);
+                quadTreesStack.push(eachNode);
+            }
+        }
+    }
+    unordered_set<pair<Collider2D*, Collider2D*>, PairHash, PairEqual> collisionCheckboard;
+
+    stack<QuadTreeNode*> quadTreeStack;
+    quadTreeStack.push(QuadTreeNode::rootNode.get());
+    while (!quadTreeStack.empty())
+    {
+        auto node = quadTreeStack.top();
+        quadTreeStack.pop();
+
+        if (node->leftTop.get() != nullptr)
+        {
+            quadTreeStack.push(node->leftTop.get());
+            quadTreeStack.push(node->rightTop.get());
+            quadTreeStack.push(node->leftBottom.get());
+            quadTreeStack.push(node->rightBottom.get());
+            continue;
+        }
+        // 말단 노드인 경우 충돌체크를 진행한다.
+        for (Collider2D* colliderA : node->colliders)
+            for (Collider2D* colliderB : node->colliders)
+            {
+                if (colliderA == colliderB)
+                    continue;
+                if (collisionCheckboard.find((colliderA < colliderB) ? make_pair(colliderA, colliderB) : make_pair(colliderB, colliderA)) == collisionCheckboard.end())
+                {
+                    if (colliderB->isOverlappingWith(colliderA))
                     {
-                        collider1->overlappedColliders.insert(collider2);
-                        for (auto each : collider1->GetGameObject()->GetComponents())
-                            each->OnCollisionEnter2D(collision);
+                        Collision2D collisionOnA;
+                        collisionOnA.m_Collider = colliderA;
+                        collisionOnA.m_Rigidbody = colliderA->GetGameObject()->GetComponent<RigidBody2D>();
+                        collisionOnA.m_OtherCollider = colliderB;
+                        collisionOnA.m_OtherRigidbody = colliderB->GetGameObject()->GetComponent<RigidBody2D>();
+
+                        Collision2D collisionOnB;
+                        collisionOnB.m_Collider = colliderB;
+                        collisionOnB.m_Rigidbody = colliderB->GetGameObject()->GetComponent<RigidBody2D>();
+                        collisionOnB.m_OtherCollider = colliderA;
+                        collisionOnB.m_OtherRigidbody = colliderA->GetGameObject()->GetComponent<RigidBody2D>();
+
+                        if (colliderA->overlappedColliders.find(colliderB) == colliderA->overlappedColliders.end())
+                        {
+                            colliderA->overlappedColliders.insert(colliderB);
+                            for (auto each : colliderA->GetGameObject()->GetComponents())
+                                each->OnCollisionEnter2D(collisionOnA);
+
+                            colliderB->overlappedColliders.insert(colliderA);
+                            for (auto each : colliderB->GetGameObject()->GetComponents())
+                                each->OnCollisionEnter2D(collisionOnB);
+                        }
+                        else
+                        {
+                            for (auto each : colliderA->GetGameObject()->GetComponents())
+                                each->OnCollisionStay2D(collisionOnA);
+                            for (auto each : colliderB->GetGameObject()->GetComponents())
+                                each->OnCollisionStay2D(collisionOnB);
+                        }
                     }
                     else
                     {
-                        for (auto each : collider1->GetGameObject()->GetComponents())
-                            each->OnCollisionStay2D(Collision2D());
-                    }
-                }
-                else
-                {
-                    if (collider1->overlappedColliders.find(collider2) != collider1->overlappedColliders.end())
-                    {
-                        Collision2D collision;
-                        collision.m_Collider = collider1;
-                        collision.m_Rigidbody = collider1->GetGameObject()->GetComponent<RigidBody2D>();
-                        collision.m_OtherCollider = collider2;
-                        collision.m_OtherRigidbody = collider2->GetGameObject()->GetComponent<RigidBody2D>();
+                        if (colliderA->overlappedColliders.find(colliderB) != colliderA->overlappedColliders.end())
+                        {
+                            Collision2D collisionOnA;
+                            collisionOnA.m_Collider = colliderA;
+                            collisionOnA.m_Rigidbody = colliderA->GetGameObject()->GetComponent<RigidBody2D>();
+                            collisionOnA.m_OtherCollider = colliderB;
+                            collisionOnA.m_OtherRigidbody = colliderB->GetGameObject()->GetComponent<RigidBody2D>();
 
-                        collider1->overlappedColliders.erase(collider2);
-                        for (auto each : collider1->GetGameObject()->GetComponents())
-                            each->OnCollisionExit2D(collision);
+                            Collision2D collisionOnB;
+                            collisionOnB.m_Collider = colliderB;
+                            collisionOnB.m_Rigidbody = colliderB->GetGameObject()->GetComponent<RigidBody2D>();
+                            collisionOnB.m_OtherCollider = colliderA;
+                            collisionOnB.m_OtherRigidbody = colliderA->GetGameObject()->GetComponent<RigidBody2D>();
+
+                            colliderA->overlappedColliders.erase(colliderB);
+                            for (auto each : colliderA->GetGameObject()->GetComponents())
+                                each->OnCollisionExit2D(collisionOnA);
+
+                            colliderB->overlappedColliders.erase(colliderA);
+                            for (auto each : colliderB->GetGameObject()->GetComponents())
+                                each->OnCollisionExit2D(collisionOnB);
+                        }
                     }
+                    collisionCheckboard.insert((colliderA < colliderB) ? make_pair(colliderA, colliderB) : make_pair(colliderB, colliderA));
                 }
+            }
+    }
+
+    // 아래는 n^2 복잡도의 무식한 충돌체크
+    //for (auto collider1 : colliders2D)
+    //    for (auto collider2 : colliders2D)
+    //        if (collider2 != collider1)
+    //            if (collider2->isOverlappingWith(collider1))
+    //            {
+    //                Collision2D collisionOnA;
+    //                collisionOnA.m_Collider = collider1;
+    //                collisionOnA.m_Rigidbody = collider1->GetGameObject()->GetComponent<RigidBody2D>();
+    //                collisionOnA.m_OtherCollider = collider2;
+    //                collisionOnA.m_OtherRigidbody = collider2->GetGameObject()->GetComponent<RigidBody2D>();
+
+    //                if (collider1->overlappedColliders.find(collider2) == collider1->overlappedColliders.end())
+    //                {
+    //                    collider1->overlappedColliders.insert(collider2);
+    //                    for (auto each : collider1->GetGameObject()->GetComponents())
+    //                        each->OnCollisionEnter2D(collisionOnA);
+    //                }
+    //                else
+    //                {
+    //                    for (auto each : collider1->GetGameObject()->GetComponents())
+    //                        each->OnCollisionStay2D(Collision2D());
+    //                }
+    //            }
+    //            else
+    //            {
+    //                if (collider1->overlappedColliders.find(collider2) != collider1->overlappedColliders.end())
+    //                {
+    //                    Collision2D collisionOnA;
+    //                    collisionOnA.m_Collider = collider1;
+    //                    collisionOnA.m_Rigidbody = collider1->GetGameObject()->GetComponent<RigidBody2D>();
+    //                    collisionOnA.m_OtherCollider = collider2;
+    //                    collisionOnA.m_OtherRigidbody = collider2->GetGameObject()->GetComponent<RigidBody2D>();
+
+    //                    collider1->overlappedColliders.erase(collider2);
+    //                    for (auto each : collider1->GetGameObject()->GetComponents())
+    //                        each->OnCollisionExit2D(collisionOnA);
+    //                }
+    //            }
 }
-bool Collider2D::isOverlapping(BoxCollider2D* a, BoxCollider2D* b)
+bool Collider2D::isOverlapping(const BoxCollider2D* a, const BoxCollider2D* b)
 {
     auto angleA = a->GetTransform()->GetWorldRotation().Euler().z * YunutyMath::Deg2Rad;
     auto angleB = b->GetTransform()->GetWorldRotation().Euler().z * YunutyMath::Deg2Rad;
@@ -78,7 +248,7 @@ bool Collider2D::isOverlapping(BoxCollider2D* a, BoxCollider2D* b)
 
     return true;
 }
-bool Collider2D::isOverlapping(BoxCollider2D* a, CircleCollider2D* b)
+bool Collider2D::isOverlapping(const BoxCollider2D* a, const CircleCollider2D* b)
 {
     auto angleA = a->GetTransform()->GetWorldRotation().Euler().z * YunutyMath::Deg2Rad;
     auto positionA = a->GetTransform()->GetWorldPosition();
@@ -127,24 +297,24 @@ const unordered_set<Collider2D*>& Collider2D::GetOverlappedColliders() const
     return overlappedColliders;
 }
 
-bool Collider2D::isOverlapping(BoxCollider2D* a, LineCollider2D* b)
+bool Collider2D::isOverlapping(const BoxCollider2D* a, const LineCollider2D* b)
 {
     return false;
 }
 
-bool Collider2D::isOverlapping(CircleCollider2D* a, CircleCollider2D* b)
+bool Collider2D::isOverlapping(const CircleCollider2D* a, const CircleCollider2D* b)
 {
     Vector2d aPos = a->GetTransform()->GetWorldPosition();
     Vector2d bPos = b->GetTransform()->GetWorldPosition();
     return (aPos - bPos).Magnitude() < a->radius + b->radius;
 }
 
-bool Collider2D::isOverlapping(CircleCollider2D* a, LineCollider2D* b)
+bool Collider2D::isOverlapping(const CircleCollider2D* a, const LineCollider2D* b)
 {
     return false;
 }
 
-bool Collider2D::isOverlapping(LineCollider2D* a, LineCollider2D* b)
+bool Collider2D::isOverlapping(const LineCollider2D* a, const LineCollider2D* b)
 {
     return false;
 }

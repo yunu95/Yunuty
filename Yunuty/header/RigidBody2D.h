@@ -13,7 +13,6 @@
 #else
 #define YUNUTY_API __declspec(dllimport)
 #endif
-
 using namespace std;
 namespace YunutyEngine
 {
@@ -25,10 +24,10 @@ namespace YunutyEngine
         bool isVelocityCached=false;
     public:
         Vector2d position;
-        double rotation;
+        double rotation=0;
         Vector2d velocity;
-        double angularVelocity;
-        bool useAutoMass;
+        double angularVelocity=0;
+        bool useAutoMass=false;
         double mass = 1;
         Vector2d centerOfMass;
     protected:

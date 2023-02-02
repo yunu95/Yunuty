@@ -135,7 +135,7 @@ vector<GameObject*> YunutyEngine::YunutyCycle::GetGameObjects(bool onlyActive)
         {
             auto gameObject = objectsStack.top();
             objectsStack.pop();
-            if (!(onlyActive && gameObject->GetSelfActive()))
+            if (onlyActive && !gameObject->GetSelfActive())
                 continue;
 
             ret.push_back(gameObject);

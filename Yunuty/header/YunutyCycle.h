@@ -14,7 +14,7 @@ using namespace std;
 namespace YunutyEngine
 {
     class Component;
-    static class YUNUTY_API YunutyCycle : Object
+    class YUNUTY_API YunutyCycle : Object
     {
     private:
         thread updateThread;
@@ -22,7 +22,7 @@ namespace YunutyEngine
         void ActiveComponentsDo(function<void(Component*)> todo);
         void ActiveComponentsDo(void (Component::* method)());
         vector<Component*> GetActiveComponents();
-        vector<GameObject*> GetGameObjects(bool onlyActive=true);
+        vector<GameObject*> GetGameObjects(bool onlyActive = true);
         static void UpdateComponent(Component* component);
         static void StartComponent(Component* component);
         void ThreadFunction();

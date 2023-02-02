@@ -25,11 +25,13 @@ namespace YunutyEngine
     private:
         Rect collisonRect;
     protected:
-        virtual bool isOverlappingWith(Collider2D* other);
-        virtual bool isOverlappingWith(BoxCollider2D* other);
-        virtual bool isOverlappingWith(CircleCollider2D* other);
-        virtual bool isOverlappingWith(LineCollider2D* other);
+        virtual bool isOverlappingWith(const Collider2D* other)const;
+        virtual bool isOverlappingWith(const BoxCollider2D* other)const;
+        virtual bool isOverlappingWith(const CircleCollider2D* other)const;
+        virtual bool isOverlappingWith(const LineCollider2D* other)const;
+        virtual bool isInsideNode(const QuadTreeNode* node)const override;
     public:
+        virtual double GetArea()const override;
         void SetWidth(double width);
         void SetHeight(double height);
         double GetWidth()const;

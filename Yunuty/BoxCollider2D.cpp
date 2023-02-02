@@ -1,21 +1,32 @@
 #include "YunutyEngine.h"
 using namespace YunutyMath;
 
-bool BoxCollider2D::isOverlappingWith(Collider2D* other)
+bool BoxCollider2D::isOverlappingWith(const Collider2D* other)const
 {
     return other->isOverlappingWith(this);
 }
-bool BoxCollider2D::isOverlappingWith(BoxCollider2D* other)
+bool BoxCollider2D::isOverlappingWith(const BoxCollider2D* other)const
 {
     return Collider2D::isOverlapping(this, other);
 }
-bool BoxCollider2D::isOverlappingWith(CircleCollider2D* other)
+bool BoxCollider2D::isOverlappingWith(const CircleCollider2D* other)const
 {
     return Collider2D::isOverlapping(this, other);
 }
-bool BoxCollider2D::isOverlappingWith(LineCollider2D* other)
+bool BoxCollider2D::isOverlappingWith(const LineCollider2D* other)const
 {
     return Collider2D::isOverlapping(this, other);
+}
+bool BoxCollider2D::isInsideNode(const QuadTreeNode* node)const
+{
+    auto position = GetTransform()->GetWorldPosition();
+    auto radius = (collisonRect.height + collisonRect.width) / 2;
+    return node->xInterval.left - radius < position.x&& position.x < node->xInterval.right + radius &&
+        node->yInterval.left - radius < position.y&& position.y < node->yInterval.right + radius;
+}
+double BoxCollider2D::GetArea()const
+{
+    return collisonRect.height * collisonRect.width;
 }
 void BoxCollider2D::SetWidth(double width)
 {
@@ -48,5 +59,5 @@ Interval BoxCollider2D::projectedInterval(const Vector2d& vParam)const
         abs(Vector2d::Dot(Vector2d::DirectionByAngle(angle + innerAngle) * r, v)),
         abs(Vector2d::Dot(Vector2d::DirectionByAngle(angle - innerAngle) * r, v))
     );
-    return Interval(projectedCenter, projectedR);
+    return Interval::FromRadius(projectedCenter, projectedR);
 }

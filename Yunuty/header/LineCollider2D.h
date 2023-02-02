@@ -22,8 +22,8 @@ namespace YunutyEngine
     {
         friend Collider2D;
     private:
-        virtual bool isOverlappingWith(BoxCollider2D* other) override;
-        virtual bool isOverlappingWith(CircleCollider2D* other) override;
-        virtual bool isOverlappingWith(LineCollider2D* other) override;
+        virtual bool isOverlappingWith(const BoxCollider2D* other)const override;
+        virtual bool isOverlappingWith(const CircleCollider2D* other)const override;
+        virtual bool isOverlappingWith(const LineCollider2D* other)const override;
     };
 }

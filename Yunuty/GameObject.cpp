@@ -6,6 +6,7 @@
 
 using namespace YunutyEngine;
 using namespace std;
+
 YunutyEngine::GameObject::GameObject(IGameObjectParent* parent)
 {
     transform = AddComponent<Transform>();
@@ -73,6 +74,10 @@ GameObject* YunutyEngine::GameObject::GetParentGameObject()
 {
     return parentGameObject;
 }
+const GameObject* YunutyEngine::GameObject::GetParentGameObject()const
+{
+    return parentGameObject;
+}
 Scene* YunutyEngine::GameObject::GetScene()
 {
     return scene;
@@ -127,27 +132,80 @@ Transform* YunutyEngine::GameObject::GetTransform()
 {
     return transform;
 }
+const Transform* YunutyEngine::GameObject::GetTransform()const
+{
+    return transform;
+}
 int YunutyEngine::GameObject::GetChildIndex()const
 {
     return parent->GetChildIndex(this);
 }
 int YunutyEngine::GameObject::GetSceneIndex()const
 {
-    if (!cachedSceneIndex.IsDirty())
-        return cachedSceneIndex;
-    int ret = 1;
-    int childIndex = parent->GetChildIndex(this);
-    if (childIndex == 0)
+    return GetSceneIndex(this);
+}
+int YunutyEngine::GameObject::GetSceneIndex(const GameObject* target)
+{
+    if (!target->cachedSceneIndex.IsDirty())
+        return target->cachedSceneIndex;
+    
+#if _DEBUG
+    messyIndexingCalled++;
+#endif
+    stack<const GameObject*> objStack;
+    objStack.push(target);
+    while (!objStack.empty())
     {
-        ret += parentGameObject ? parentGameObject->GetSceneIndex() : 0;
+        auto obj = objStack.top();
+        if (!obj->cachedSceneIndex.IsDirty())
+        {
+            objStack.pop();
+            if (!objStack.empty())
+                objStack.top()->cachedSceneIndex = objStack.top()->cachedSceneIndex + obj->cachedSceneIndex;
+            continue;
+        }
+        else
+        {
+            int childIndex = obj->parent->GetChildIndex(obj);
+            if (childIndex == 0)
+            {
+                if (obj->parentGameObject)
+                {
+                    objStack.push(obj->parentGameObject);
+                    obj->cachedSceneIndex = 1;
+                    continue;
+                }
+                // 씬에서 가장 첫번째로 배치된 게임오브젝트
+                else
+                {
+                    obj->cachedSceneIndex = 0;
+                    continue;
+                }
+            }
+            else
+            {
+                auto brother = obj->parent->GetChildren()[childIndex - 1];
+                obj->cachedSceneIndex = brother->childrenNum + 1;
+                objStack.push(brother);
+            }
+        }
     }
-    else
-    {
-        auto brother = parent->GetChildren()[childIndex - 1];
-        ret += brother->GetSceneIndex() + brother->childrenNum;
-    }
+    return target->cachedSceneIndex;
+    //int childIndex = target->parent->GetChildIndex(target);
+    //if (childIndex == 0)
+    //{
+    //    if (target->parentGameObject)
+    //        return GetSceneIndexRecursive(target->parentGameObject, deltaIndex + 1);
+    //    else
+    //        return deltaIndex;
+    //}
+    //else
+    //{
+    //    auto brother = target->parent->GetChildren()[childIndex - 1];
+    //    ret += brother->GetSceneIndex() + brother->childrenNum;
+    //}
 
-    return cachedSceneIndex = ret;
+    //return target->cachedSceneIndex = ret;
 }
 string YunutyEngine::GameObject::getName()const
 {
@@ -161,3 +219,7 @@ void YunutyEngine::GameObject::SetCacheDirty()
 {
     cachedSceneIndex.SetDirty();
 }
+
+#if _DEBUG
+int YunutyEngine::GameObject::messyIndexingCalled = 0;
+#endif

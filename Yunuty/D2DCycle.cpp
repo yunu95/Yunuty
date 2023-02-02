@@ -90,17 +90,18 @@ LRESULT CALLBACK YunutyEngine::D2D::D2DCycle::WndProc(HWND hWnd, UINT message, W
     {
         int wmId = LOWORD(wParam);
         // Parse the menu selections:
-        switch (wmId)
+        /*switch (wmId)
         {
-            /*case IDM_ABOUT:
-                DialogBox(hInst, MAKEINTRESOURCE(IDD_ABOUTBOX), hWnd, About);
-                break;
-            case IDM_EXIT:
-                DestroyWindow(hWnd);
-                break;*/
+        case IDM_ABOUT:
+            DialogBox(hInst, MAKEINTRESOURCE(IDD_ABOUTBOX), hWnd, About);
+            break;
+        case IDM_EXIT:
+            DestroyWindow(hWnd);
+            break;
         default:
             return DefWindowProc(hWnd, message, wParam, lParam);
-        }
+        }*/
+        return DefWindowProc(hWnd, message, wParam, lParam);
     }
     break;
     case WM_PAINT:

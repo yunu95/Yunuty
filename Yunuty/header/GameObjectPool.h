@@ -33,6 +33,9 @@ namespace YunutyEngine
         int poolObjectsSize() { return poolObjects.size(); };
         int expendableObjectsSize() { return expendableObjects.size(); };
     protected:
+        const unordered_set<ReprenstativeComponent*>& GetPoolObjects() {
+            return poolObjects; 
+        }
     private:
         unordered_set<ReprenstativeComponent*> poolObjects;
         unordered_set<ReprenstativeComponent*> expendableObjects;

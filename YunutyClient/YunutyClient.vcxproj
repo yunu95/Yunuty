@@ -139,7 +139,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="FPSBenchMark.h" />
     <ClInclude Include="framework.h" />
+    <ClInclude Include="QuadTreeDebugger.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="ShakyFella.h" />
     <ClInclude Include="SpeedMeter.h" />
@@ -148,6 +150,8 @@
     <ClInclude Include="ZoomableCamera.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="FPSBenchMark.cpp" />
+    <ClCompile Include="QuadTreeDebugger.cpp" />
     <ClCompile Include="ShakyFella.cpp" />
     <ClCompile Include="SpeedMeter.cpp" />
     <ClCompile Include="YunutyClient.cpp" />

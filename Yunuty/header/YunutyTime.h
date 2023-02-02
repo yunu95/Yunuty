@@ -12,7 +12,7 @@
 using namespace std;
 namespace YunutyEngine
 {
-    static class YUNUTY_API Time :
+    class YUNUTY_API Time :
         public Object
     {
         friend class YunutyCycle;
@@ -21,10 +21,12 @@ namespace YunutyEngine
         static double timeScale;
         static double deltaTimeUnscaled;
         static void Update();
+        static queue<double> fpsQueue;
     public:
         static void SetTimeScale(const float& timeScale);
         static double GetTimeScale();
         static double GetDeltaTime();
         static double GetDeltaTimeUnscaled();
+        static int GetFPS();
     };
 }

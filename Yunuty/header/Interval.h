@@ -11,12 +11,14 @@ namespace YunutyEngine
     class YUNUTY_API Interval
     {
     public:
+        static Interval FromRadius(double centre, double radius);
         Interval() = default;
-        Interval(double centre, double radius);
+        Interval(double left, double right);
         double left = 0;
         double right = 0;
         bool leftClosed = true;
         bool rightClosed = true;
-        bool OverlappedWith(const Interval& other);
+        bool OverlappedWith(const Interval& other)const;
+        double GetLength()const;
     };
 }
