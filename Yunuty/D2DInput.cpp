@@ -122,6 +122,9 @@ bool D2DInput::m_isKeyLifted(KeyCode keyCode)
 Vector2d D2DInput::getMouseWorldPosition()
 {
     auto ret = getMousePositionNormalized();
+    ret.x -= 0.5;
+    ret.y -= 0.5;
+    ret.y *= -1;
     auto camRes = D2DCamera::GetMainD2DCamera()->GetResolution();
     ret.x *= camRes.width * D2DCamera::GetMainD2DCamera()->GetZoomOutFactor();
     ret.y *= camRes.height * D2DCamera::GetMainD2DCamera()->GetZoomOutFactor();

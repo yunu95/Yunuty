@@ -20,8 +20,10 @@ namespace YunutyEngine
         public:
             void SetIsRepeating(bool repeating) { this->isRepeating = repeating; }
             bool GetIsRepeating() { return this->isRepeating; }
-            void LoadAnimationFromFile(wstring folderName,double interval=0.1);
+            void LoadAnimationFromFile(wstring folderName, double interval = 0.1);
             void Play();
+            void SetWidth(double width);
+            void SetHeight(double width);
         protected:
             virtual void Update() override;
             virtual void Render(D2D1::Matrix3x2F transform) override;
@@ -29,10 +31,13 @@ namespace YunutyEngine
             void SetAnimation(const SpriteAnim* animation);
             const SpriteAnim* GetAnimSprites() const;
         private:
+            wstring loadedAnimFilePath;
             bool isRepeating = true;
             const SpriteAnim* animSprites = nullptr;
             int index = 0;
             double elapsed = 0;
+            double width = 100;
+            double height = 100;
             static unordered_map<wstring, vector<pair<double, wstring>>> cachedAnims;
         };
     }

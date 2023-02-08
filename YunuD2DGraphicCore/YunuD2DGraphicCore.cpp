@@ -307,22 +307,22 @@ void YunuD2D::YunuD2DGraphicCore::DrawSprite(wstring filePath, const D2D1::Matri
 
     D2D1_RECT_F rect;
     auto renderTargetSize = renderTarget->GetSize();
-    rect.bottom = transform.dy + 0.5 * height * transform.m22;
+    /*rect.bottom = transform.dy + 0.5 * height * transform.m22;
     rect.top = transform.dy - 0.5 * height * transform.m22;
     rect.right = transform.dx + 0.5 * width * transform.m11;
-    rect.left = transform.dx - 0.5 * width * transform.m11;
+    rect.left = transform.dx - 0.5 * width * transform.m11;*/
 
-    /*rect.bottom = 0.5 * height;
-    rect.top = 0.5 * height;
+    rect.bottom = 0.5 * height;
+    rect.top = -0.5 * height;
     rect.right = 0.5 * width;
-    rect.left = 0.5 * width;*/
+    rect.left = -0.5 * width;
     if (rect.left >= renderTargetSize.width || rect.top >= renderTargetSize.height ||
         rect.right <= 0.0f || rect.bottom <= 0.0f)
         return;
 
-    //renderTarget->SetTransform(transform);
+    renderTarget->SetTransform(transform);
     renderTarget->DrawBitmap(sprite, rect);
-    //renderTarget->SetTransform(D2D1::Matrix3x2F::Identity());
+    renderTarget->SetTransform(D2D1::Matrix3x2F::Identity());
 }
 PixelInfos YunuD2DGraphicCore::GetPixelInfos(wstring imgFilepath)
 {

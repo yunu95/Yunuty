@@ -29,7 +29,7 @@ namespace YunutyEngine
         GameObject* gameObject = nullptr;
         bool StartCalled = false;
     protected:
-        Component() {}
+        Component();
         // 비활성화된 게임 오브젝트가 활성화 될 때 호출되는 콜백 함수입니다.
         virtual void OnEnable() {};
         // 활성화된 게임 오브젝트가 비활성화 될 때 호출되는 콜백 함수입니다.

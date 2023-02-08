@@ -12,8 +12,20 @@ void D2DAnimatedSprite::Play()
     index = 0;
     elapsed = 0;
 }
-void D2DAnimatedSprite::LoadAnimationFromFile(wstring folderName,double interval)
+void D2DAnimatedSprite::SetWidth(double width)
 {
+    this->width = width;
+}
+void D2DAnimatedSprite::SetHeight(double height)
+{
+    this->height = height;
+}
+void D2DAnimatedSprite::LoadAnimationFromFile(wstring folderName, double interval)
+{
+    if (loadedAnimFilePath != folderName)
+        index = 0;
+
+    loadedAnimFilePath = folderName;
     animSprites = LoadAnimation(folderName, interval);
 }
 void D2DAnimatedSprite::Update()
@@ -79,7 +91,7 @@ const SpriteAnim* D2DAnimatedSprite::LoadAnimation(wstring folderName, double in
 void D2DAnimatedSprite::Render(D2D1::Matrix3x2F transform)
 {
     if (animSprites)
-        YunuD2D::YunuD2DGraphicCore::GetInstance()->DrawSprite((*animSprites)[index].second, transform, D2D1::ColorF::White);
+        YunuD2D::YunuD2DGraphicCore::GetInstance()->DrawSprite((*animSprites)[index].second, transform, D2D1::ColorF::White, width, height);
 }
 const SpriteAnim* D2DAnimatedSprite::GetAnimSprites() const
 {

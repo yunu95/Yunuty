@@ -40,7 +40,9 @@ void Collider2D::InvokeCollisionEvents()
         double top = 0, bottom = 0, left = 0, right = 0;
         double meanColliderArea = 0;
         bool rectInitialized = false;
-        for (auto collider : colliders2D)
+        auto activeColliders = colliders2D;
+        erase_if(activeColliders, [](Collider2D* each) {return !each->GetGameObject()->GetActive(); });
+        for (auto collider : activeColliders)
         {
             meanColliderArea += collider->GetArea();
             auto pos = collider->GetTransform()->GetWorldPosition();
@@ -61,11 +63,11 @@ void Collider2D::InvokeCollisionEvents()
             if (pos.y < bottom)
                 bottom = pos.y;
         }
-        meanColliderArea /= colliders2D.size();
+        meanColliderArea /= activeColliders.size();
 
         QuadTreeNode::rootNode->xInterval = Interval(left, right);
         QuadTreeNode::rootNode->yInterval = Interval(bottom, top);
-        QuadTreeNode::rootNode->colliders = vector<Collider2D*>(colliders2D.begin(), colliders2D.end());
+        QuadTreeNode::rootNode->colliders = vector<Collider2D*>(activeColliders.begin(), activeColliders.end());
         stack<QuadTreeNode*> quadTreesStack;
         quadTreesStack.push(QuadTreeNode::rootNode.get());
         while (!quadTreesStack.empty())
@@ -185,46 +187,6 @@ void Collider2D::InvokeCollisionEvents()
                 }
             }
     }
-
-    // 아래는 n^2 복잡도의 무식한 충돌체크
-    //for (auto collider1 : colliders2D)
-    //    for (auto collider2 : colliders2D)
-    //        if (collider2 != collider1)
-    //            if (collider2->isOverlappingWith(collider1))
-    //            {
-    //                Collision2D collisionOnA;
-    //                collisionOnA.m_Collider = collider1;
-    //                collisionOnA.m_Rigidbody = collider1->GetGameObject()->GetComponent<RigidBody2D>();
-    //                collisionOnA.m_OtherCollider = collider2;
-    //                collisionOnA.m_OtherRigidbody = collider2->GetGameObject()->GetComponent<RigidBody2D>();
-
-    //                if (collider1->overlappedColliders.find(collider2) == collider1->overlappedColliders.end())
-    //                {
-    //                    collider1->overlappedColliders.insert(collider2);
-    //                    for (auto each : collider1->GetGameObject()->GetComponents())
-    //                        each->OnCollisionEnter2D(collisionOnA);
-    //                }
-    //                else
-    //                {
-    //                    for (auto each : collider1->GetGameObject()->GetComponents())
-    //                        each->OnCollisionStay2D(Collision2D());
-    //                }
-    //            }
-    //            else
-    //            {
-    //                if (collider1->overlappedColliders.find(collider2) != collider1->overlappedColliders.end())
-    //                {
-    //                    Collision2D collisionOnA;
-    //                    collisionOnA.m_Collider = collider1;
-    //                    collisionOnA.m_Rigidbody = collider1->GetGameObject()->GetComponent<RigidBody2D>();
-    //                    collisionOnA.m_OtherCollider = collider2;
-    //                    collisionOnA.m_OtherRigidbody = collider2->GetGameObject()->GetComponent<RigidBody2D>();
-
-    //                    collider1->overlappedColliders.erase(collider2);
-    //                    for (auto each : collider1->GetGameObject()->GetComponents())
-    //                        each->OnCollisionExit2D(collisionOnA);
-    //                }
-    //            }
 }
 bool Collider2D::isOverlapping(const BoxCollider2D* a, const BoxCollider2D* b)
 {

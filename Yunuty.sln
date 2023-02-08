@@ -16,10 +16,12 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "YunutyClient", "YunutyClien
 		{C9A0C297-4850-4A5E-A53F-8FDE17269CAA} = {C9A0C297-4850-4A5E-A53F-8FDE17269CAA}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "YunuAlert2", "YunuAlert2\YunuAlert2.vcxproj", "{12E8B76F-D4F4-48A7-8AD8-F69D842F44E1}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Guardian_shooter", "Guardian_shooter\Guardian_shooter.vcxproj", "{60C57118-F005-45CC-BBA9-6CD7F6733A30}"
 	ProjectSection(ProjectDependencies) = postProject
 		{60308F48-95FA-432C-849D-B74BE6CCCE60} = {60308F48-95FA-432C-849D-B74BE6CCCE60}
 	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "YunuAlert2", "YunuAlert2\YunuAlert2.vcxproj", "{12E8B76F-D4F4-48A7-8AD8-F69D842F44E1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -53,6 +55,14 @@ Global
 		{AE912C84-C2FE-4438-A7C6-0D8BD19CBB19}.Release|x64.Build.0 = Release|x64
 		{AE912C84-C2FE-4438-A7C6-0D8BD19CBB19}.Release|x86.ActiveCfg = Release|Win32
 		{AE912C84-C2FE-4438-A7C6-0D8BD19CBB19}.Release|x86.Build.0 = Release|Win32
+		{60C57118-F005-45CC-BBA9-6CD7F6733A30}.Debug|x64.ActiveCfg = Debug|x64
+		{60C57118-F005-45CC-BBA9-6CD7F6733A30}.Debug|x64.Build.0 = Debug|x64
+		{60C57118-F005-45CC-BBA9-6CD7F6733A30}.Debug|x86.ActiveCfg = Debug|Win32
+		{60C57118-F005-45CC-BBA9-6CD7F6733A30}.Debug|x86.Build.0 = Debug|Win32
+		{60C57118-F005-45CC-BBA9-6CD7F6733A30}.Release|x64.ActiveCfg = Release|x64
+		{60C57118-F005-45CC-BBA9-6CD7F6733A30}.Release|x64.Build.0 = Release|x64
+		{60C57118-F005-45CC-BBA9-6CD7F6733A30}.Release|x86.ActiveCfg = Release|Win32
+		{60C57118-F005-45CC-BBA9-6CD7F6733A30}.Release|x86.Build.0 = Release|Win32
 		{12E8B76F-D4F4-48A7-8AD8-F69D842F44E1}.Debug|x64.ActiveCfg = Debug|x64
 		{12E8B76F-D4F4-48A7-8AD8-F69D842F44E1}.Debug|x64.Build.0 = Debug|x64
 		{12E8B76F-D4F4-48A7-8AD8-F69D842F44E1}.Debug|x86.ActiveCfg = Debug|Win32

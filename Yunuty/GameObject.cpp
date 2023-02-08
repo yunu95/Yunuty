@@ -222,4 +222,6 @@ void YunutyEngine::GameObject::SetCacheDirty()
 
 #if _DEBUG
 int YunutyEngine::GameObject::messyIndexingCalled = 0;
+bool YunutyEngine::GameObject::addComponentFlag = false;
 #endif
+

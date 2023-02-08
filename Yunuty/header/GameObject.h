@@ -42,6 +42,9 @@ namespace YunutyEngine
         ComponentType* AddComponent()
         {
             static_assert(std::is_base_of<Component, ComponentType>::value, "only derived classes from component are allowed");
+#if _DEBUG
+            addComponentFlag = true;
+#endif
             auto newComponent = new ComponentType();
             newComponent->gameObject = this;
             components.insert(make_pair(newComponent, unique_ptr<Component>(newComponent)));
@@ -56,7 +59,7 @@ namespace YunutyEngine
             {
                 auto castedPointer = dynamic_cast<ComponentType*>(i->first);
                 if (castedPointer)
-                    return castedPointer;;
+                    return castedPointer;
             }
             return nullptr;
         }
@@ -69,7 +72,7 @@ namespace YunutyEngine
             {
                 auto castedPointer = dynamic_cast<const ComponentType*>(i->first);
                 if (castedPointer)
-                    return castedPointer;;
+                    return castedPointer;
             }
             return nullptr;
         }
@@ -133,6 +136,11 @@ namespace YunutyEngine
         friend Scene;
         friend YunutyCycle;
 #if _DEBUG
+        friend Component::Component();
+
+    private:
+        static bool addComponentFlag;
+
     public:
         static int messyIndexingCalled;
 #endif
