@@ -48,7 +48,7 @@ namespace YunuD2D
         void DrawLine(const D2D1_POINT_2F& start, const D2D1_POINT_2F& end, float width, D2D1::ColorF color = D2D1::ColorF(0x000000, 1));
 
         ID2D1SolidColorBrush* brush;
-        std::unordered_map<D2D1::ColorF, unique_ptr<ID2D1SolidColorBrush>> cachedBrushes;
+        std::unordered_map<D2D1::ColorF, ID2D1SolidColorBrush*> cachedBrushes;
         std::unordered_map<wstring, ID2D1Bitmap*> cachedBitmaps;
         std::unordered_map<wstring, IWICBitmap*> cachedWicBitmaps;
         //std::map<D2D1::ColorF, ID2D1SolidColorBrush*> cachedBrushes;
@@ -76,8 +76,10 @@ namespace YunuD2D
         void DrawTextImage(wstring str, const D2D1::Matrix3x2F& transform, D2D1::ColorF color, double fontSize = 10, double width = 100, double height = 100);
         void DrawSprite(wstring filePath, const D2D1::Matrix3x2F& transform, D2D1::ColorF color, double width = 100, double height = 100);
         PixelInfos GetPixelInfos(wstring imgFilepath);
+        //void GetSpriteSize(wstring filePath,double* width,double* height);
+        tuple<double, double> GetSpriteSize(wstring filePath);
 
-        void BeginDraw();
+            void BeginDraw();
         void EndDraw();
     };
 }

@@ -20,7 +20,8 @@ bool BoxCollider2D::isOverlappingWith(const LineCollider2D* other)const
 bool BoxCollider2D::isInsideNode(const QuadTreeNode* node)const
 {
     auto position = GetTransform()->GetWorldPosition();
-    auto radius = (collisonRect.height + collisonRect.width) / 2;
+    auto scale = GetTransform()->GetWorldScale();
+    auto radius = (collisonRect.height + collisonRect.width)*max(scale.x,scale.y) / 2;
     return node->xInterval.left - radius < position.x&& position.x < node->xInterval.right + radius &&
         node->yInterval.left - radius < position.y&& position.y < node->yInterval.right + radius;
 }

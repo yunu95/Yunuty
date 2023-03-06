@@ -20,6 +20,7 @@ namespace YunutyEngine
         {
         private:
             static D2DCycle* _instance;
+            bool focused;
             HWND hWnd = 0;
             HINSTANCE hInstance = 0;
             WNDCLASSEXW wcex;
@@ -35,6 +36,7 @@ namespace YunutyEngine
         public:
             static D2DCycle& GetInstance();
             BOOL Initialize(HINSTANCE hInstance, const WNDCLASSEXW& wcex, _In_ int nCmdShow, _In_ UINT uID_TITLE, _In_ UINT uID_wndCLASS);
+            bool isWindowFocused() { return focused; };
             HWND GetMainWindow();
         };
     }

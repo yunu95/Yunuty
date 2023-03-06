@@ -59,19 +59,25 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     auto cam = defaultScene.AddGameObject()->AddComponent<ZoomableCamera>();
     cam->GetGameObject()->AddComponent<D2DText>();
     cam->GetGameObject()->AddComponent<FPSBenchMark>();
-    auto rotObj= defaultScene.AddGameObject()->AddComponent<D2DRectangle>();
+    auto rotObjParent = defaultScene.AddGameObject();
+    auto rotObj = defaultScene.AddGameObject(rotObjParent)->AddComponent<D2DRectangle>();
     rotObj->height = 100;
     rotObj->width = 100;
+    rotObj->border = 10;
     rotObj->color = D2D1::ColorF::White;
-    rotObj->filled = true;
+    rotObj->filled = false;
     rotObj->GetTransform()->SetWorldPosition(Vector2d(100, 200));
     rotObj->GetGameObject()->AddComponent<RotatingFella>();
     rotObj->GetGameObject()->AddComponent<ShakyFella>();
 
-    //auto rotObj2= defaultScene.AddGameObject()->AddComponent<D2DSprite>();
-    //rotObj2->SetSpriteFilePath(L"Sprites/protagonist.jpg");
-    //rotObj2->SetDrawRect(Rect(1000, 1000));
-    //rotObj2->GetGameObject()->AddComponent<RotatingFella>();
+    Scene::getCurrentScene()->DestroyGameObject(rotObj->GetGameObject());
+
+    auto rotObj2= defaultScene.AddGameObject()->AddComponent<D2DSprite>();
+    rotObj2->SetSpriteFilePath(L"Sprites/protagonist.jpg");
+    rotObj2->SetDrawRect(Rect(1000, 1000));
+    rotObj2->GetGameObject()->AddComponent<RotatingFella>();
+    //for (int i = 0; i < 10000; i++)
+        //defaultScene.AddGameObject()->AddComponent<D2DRectangle>();
 
     YunutyEngine::D2D::D2DCycle::GetInstance().Initialize(hInstance, wcex, nCmdShow, IDS_APP_TITLE, IDC_YUNUTYCLIENT);
     YunutyEngine::D2D::D2DCycle::GetInstance().Play();

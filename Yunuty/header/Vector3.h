@@ -33,6 +33,7 @@ namespace YunutyEngine
         static const Vector3 forward;
         static const Vector3 backward;
         static real Dot(const Vector3& lhs, const Vector3& rhs);
+        static Vector3 Cross(const Vector3& lhs, const Vector3& rhs);
         static Vector3 Project(const Vector3& vector, const Vector3& onNormal);
         static Vector3 Lerp(const Vector3& a, const Vector3& b, float t);
         static Vector3 Normalize(Vector3 v);
@@ -89,6 +90,11 @@ template<typename real>
 real YunutyEngine::Vector3<real>::Dot(const Vector3<real>& lhs, const Vector3<real>& rhs)
 {
     return lhs.x * rhs.x + lhs.y * rhs.y + lhs.z * rhs.z;
+}
+template<typename real>
+Vector3<real> YunutyEngine::Vector3<real>::Cross(const Vector3<real>& lhs, const Vector3<real>& rhs)
+{
+    return Vector3<real>(lhs.y * rhs.z - lhs.z * rhs.y, -(lhs.x * rhs.z - lhs.z * rhs.x), lhs.x * rhs.y - lhs.y * rhs.x);
 }
 template<typename real>
 Vector3<real> YunutyEngine::Vector3<real>::Project(const Vector3<real>& vector, const Vector3<real>& onNormal)

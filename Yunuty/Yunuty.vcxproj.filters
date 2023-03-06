@@ -193,6 +193,18 @@
     <Filter Include="YunutyEngine\cache">
       <UniqueIdentifier>{7736d455-84a8-4f78-a489-5035ee785362}</UniqueIdentifier>
     </Filter>
+    <Filter Include="YunutyEngine\Sound">
+      <UniqueIdentifier>{ca3f7382-deb6-4e4c-b50c-ac70838df0c9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="YunutyEngine\SoundChannel">
+      <UniqueIdentifier>{1f2eff60-0998-46ea-ae60-505effc32a97}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="YunutyEngine\GameObjectPool">
+      <UniqueIdentifier>{09ae7e14-a6e9-4647-8db8-031e20608951}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="YunutyEngine\AudioSource">
+      <UniqueIdentifier>{dfe2793b-226f-40df-8f3f-7decbab071c4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Camera.cpp">
@@ -329,6 +341,18 @@
     </ClCompile>
     <ClCompile Include="Cache.cpp">
       <Filter>YunutyEngine\cache</Filter>
+    </ClCompile>
+    <ClCompile Include="SoundSystem.cpp">
+      <Filter>YunutyEngine\Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="SoundChannel.cpp">
+      <Filter>YunutyEngine\SoundChannel</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObjectPool.cpp">
+      <Filter>YunutyEngine\GameObjectPool</Filter>
+    </ClCompile>
+    <ClCompile Include="AudioSource.cpp">
+      <Filter>YunutyEngine\AudioSource</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -481,6 +505,18 @@
     </ClInclude>
     <ClInclude Include="header\Cache.h">
       <Filter>YunutyEngine\cache</Filter>
+    </ClInclude>
+    <ClInclude Include="header\SoundSystem.h">
+      <Filter>YunutyEngine\Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="header\SoundChannel.h">
+      <Filter>YunutyEngine\SoundChannel</Filter>
+    </ClInclude>
+    <ClInclude Include="header\GameObjectPool.h">
+      <Filter>YunutyEngine\GameObjectPool</Filter>
+    </ClInclude>
+    <ClInclude Include="header\AudioSource.h">
+      <Filter>YunutyEngine\AudioSource</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -15,8 +15,8 @@ namespace YunutyEngine
     class YUNUTY_API Transform :
         public Component
     {
-    private:
     public:
+        // 이 아래로 position, rotation, scale 이 셋은 계층구조 캐싱을 위해 Setter에 의해 감싸져야 합니다.
         Vector3d position = Vector3d();
         Quaternion rotation;
         Vector3d scale = Vector3d::one;
@@ -25,5 +25,7 @@ namespace YunutyEngine
         void SetWorldPosition(const Vector3d& position);
         void SetWorldRotation(const Quaternion& rotation);
         Vector3d GetWorldScale()const;
+    private:
+        void SetCacheDirty();
     };
 }

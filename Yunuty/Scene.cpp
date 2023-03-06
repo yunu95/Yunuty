@@ -41,6 +41,7 @@ unique_ptr<YunutyEngine::GameObject> YunutyEngine::Scene::MoveChild(GameObject* 
     children.erase(child);
     auto erasedIndex = childIndexMap[child];
     childIndexMap.erase(child);
+    childrenIndexed.erase(childrenIndexed.begin() + erasedIndex);
     for (auto& each : childIndexMap)
         if (each.second > erasedIndex)
             each.second--;
@@ -63,4 +64,42 @@ void YunutyEngine::Scene::ReceiveChild(remove_reference<unique_ptr<GameObject>>:
 int YunutyEngine::Scene::GetChildIndex(const GameObject* child)const
 {
     return childIndexMap.find(child)->second;
+}
+void YunutyEngine::Scene::SetChildIndex(GameObject* child, int index)
+{
+    if (index >= children.size())
+        index = children.size() - 1;
+    if (index < 0)
+        index = 0;
+
+    if (children.find(child) == children.end())
+        return;
+    auto origin=childIndexMap[child];
+    if (origin == index)
+        return;
+
+    if (origin > index)
+    {
+        for (int i = origin; i > index; i--)
+            childrenIndexed[i] = childrenIndexed[i-1];
+        childrenIndexed[index] = child;
+
+        for (int i = origin; i >= index; i--)
+            childIndexMap[childrenIndexed[i]] = i;
+    }
+    else
+    {
+        for (int i = origin; i < index; i++)
+            childrenIndexed[i] = childrenIndexed[i+1];
+        childrenIndexed[index] = child;
+
+        for (int i = origin; i <= index; i++)
+            childIndexMap[childrenIndexed[i]] = i;
+    }
+}
+void YunutyEngine::Scene::DestroyGameObject(GameObject* gameObj)
+{
+    if (!gameObj)
+        return;
+    destroyList.insert(gameObj);
 }

@@ -71,7 +71,7 @@ Quaternion Quaternion::inverse()const
 }
 Vector3d Quaternion::operator*(const Vector3d& other)const
 {
-    auto ret = (*this) * Quaternion(0, other.x, other.y, other.z);
+    auto ret = (*this) * Quaternion(0, other.x, other.y, other.z)*this->inverse();
     return Vector3d(ret.x, ret.y, ret.z);
 }
 Vector3d Quaternion::Forward()const

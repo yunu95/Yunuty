@@ -113,10 +113,11 @@ ID2D1SolidColorBrush* YunuD2D::YunuD2DGraphicCore::GetSolidColorBrush(D2D1::Colo
     {
         ID2D1SolidColorBrush* brush;
         renderTarget->CreateSolidColorBrush(color, &brush);
-        cachedBrushes[color] = unique_ptr<ID2D1SolidColorBrush>(brush);
+        //cachedBrushes[color] = unique_ptr<ID2D1SolidColorBrush>(brush);
+        cachedBrushes[color] = brush;
         //cachedBrushes[color] = brush;
     }
-    return cachedBrushes[color].get();
+    return cachedBrushes[color];
     //return cachedBrushes[color];
 }
 D2D1_SIZE_F YunuD2D::YunuD2DGraphicCore::GetRenderSize()
@@ -133,6 +134,18 @@ void YunuD2D::YunuD2DGraphicCore::ResizeResolution(int width, int height)
         D2D1::RenderTargetProperties(),
         D2D1::HwndRenderTargetProperties(hWnd, D2D1::SizeU(width, height)),
         &renderTarget);
+    for (auto each : cachedBitmaps)
+        if (each.second)
+            each.second->Release();
+    for (auto each : cachedWicBitmaps)
+        if (each.second)
+            each.second->Release();
+    for (auto each : cachedBrushes)
+        if (each.second)
+            each.second->Release();
+    cachedBitmaps.clear();
+    cachedWicBitmaps.clear();
+    cachedBrushes.clear();
 }
 void YunuD2D::YunuD2DGraphicCore::DrawRect(float width, float height, float drawWidth, const D2D1::Matrix3x2F& transform, D2D1::ColorF color, bool filled)
 {
@@ -158,19 +171,22 @@ void YunuD2D::YunuD2DGraphicCore::DrawLine(const D2D1_POINT_2F& start, const D2D
 }
 void YunuD2D::YunuD2DGraphicCore::DrawCircle(const D2D1::Matrix3x2F& transform, const float radius, float drawWidth, D2D1::ColorF color, bool filled)
 {
-    DrawEllipse(radius * transform.m11, radius * transform.m22, drawWidth * min(transform.m11, transform.m22), transform, color, filled);
+    DrawEllipse(radius, radius, drawWidth, transform, color, filled);
 }
 void YunuD2D::YunuD2DGraphicCore::DrawEllipse(float radiusX, float radiusY, float drawWidth, const D2D1::Matrix3x2F& transform, D2D1::ColorF color, bool filled)
 {
     D2D1_ELLIPSE ellipse;
     ellipse.radiusX = radiusX;
     ellipse.radiusY = radiusY;
-    ellipse.point = transform.TransformPoint(D2D1_POINT_2F());
+    ellipse.point.x = 0;
+    ellipse.point.y = 0;
     ID2D1SolidColorBrush* brush = GetSolidColorBrush(color);
-    renderTarget->DrawEllipse(ellipse, brush, drawWidth);
 
+    renderTarget->SetTransform(transform);
     if (filled)
         renderTarget->FillEllipse(ellipse, brush);
+    renderTarget->DrawEllipse(ellipse, brush, drawWidth);
+    renderTarget->SetTransform(D2D1::Matrix3x2F::Identity());
 }
 void YunuD2D::YunuD2DGraphicCore::DrawTextImage(wstring str, const D2D1::Matrix3x2F& transform, D2D1::ColorF color, double fontSize, double width, double height)
 {
@@ -187,17 +203,19 @@ void YunuD2D::YunuD2DGraphicCore::DrawTextImage(wstring str, const D2D1::Matrix3
         DWRITE_FONT_WEIGHT_NORMAL,
         DWRITE_FONT_STYLE_NORMAL,
         DWRITE_FONT_STRETCH_NORMAL,
-        fontSize * min(transform.m11, transform.m22),
+        fontSize,
         L"",
         &textFormat
     );
-    writeFactory->CreateTextLayout(str.c_str(), str.length(), textFormat, width * transform.m11, height * transform.m22, &textLayout);
+    writeFactory->CreateTextLayout(str.c_str(), str.length(), textFormat, width, height, &textLayout);
     textLayout->SetTextAlignment(DWRITE_TEXT_ALIGNMENT_CENTER);
     textLayout->SetParagraphAlignment(DWRITE_PARAGRAPH_ALIGNMENT_CENTER);
-    origin.x = transform.dx - 0.5 * width * transform.m11;
-    origin.y = transform.dy - 0.5 * height * transform.m22;
+    origin.x = -0.5 * width;
+    origin.y = -0.5 * height;
 
+    renderTarget->SetTransform(transform);
     renderTarget->DrawTextLayout(origin, textLayout, brush);
+    renderTarget->SetTransform(D2D1::Matrix3x2F::Identity());
     textLayout->Release();
     textFormat->Release();
 }
@@ -215,9 +233,10 @@ void YunuD2D::YunuD2DGraphicCore::DrawPolygon(const std::vector<D2D1_POINT_2F> p
     pSink->Close();
     pSink->Release();
 
-    //renderTarget->DrawGeometry(geometry, GetSolidColorBrush(color));
     if (filled)
         renderTarget->FillGeometry(geometry, GetSolidColorBrush(color));
+    renderTarget->DrawGeometry(geometry, GetSolidColorBrush(color), drawWidth);
+    geometry->Release();
 }
 
 void YunuD2D::YunuD2DGraphicCore::BeginDraw()
@@ -298,6 +317,19 @@ IWICBitmap* YunuD2D::YunuD2DGraphicCore::LoadWicBitmap(wstring filePath)
 
     return cachedWicBitmaps[filePath];
 }
+tuple<double, double> YunuD2D::YunuD2DGraphicCore::GetSpriteSize(wstring filePath)
+{
+    auto sprite = LoadSprite(filePath);
+    double width = 0;
+    double height = 0;
+    if (sprite != nullptr)
+    {
+        auto size = sprite->GetPixelSize();
+        width = (double)size.width;
+        height = (double)size.height;
+    }
+    return tie(width, height);
+}
 void YunuD2D::YunuD2DGraphicCore::DrawSprite(wstring filePath, const D2D1::Matrix3x2F& transform, D2D1::ColorF color, double width, double height)
 {
     auto sprite = LoadSprite(filePath);
@@ -321,7 +353,7 @@ void YunuD2D::YunuD2DGraphicCore::DrawSprite(wstring filePath, const D2D1::Matri
         return;
 
     renderTarget->SetTransform(transform);
-    renderTarget->DrawBitmap(sprite, rect);
+    renderTarget->DrawBitmap(sprite, rect, color.a);
     renderTarget->SetTransform(D2D1::Matrix3x2F::Identity());
 }
 PixelInfos YunuD2DGraphicCore::GetPixelInfos(wstring imgFilepath)

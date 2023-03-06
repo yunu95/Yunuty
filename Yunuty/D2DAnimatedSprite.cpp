@@ -4,6 +4,7 @@
 #include <iostream>
 #include <sys/types.h>
 #include <filesystem>
+#include <regex> 
 
 unordered_map<wstring, SpriteAnim> D2DAnimatedSprite::cachedAnims;
 
@@ -69,10 +70,26 @@ const SpriteAnim* D2DAnimatedSprite::LoadAnimation(wstring folderName, double in
         return nullptr; /* No files found */
 
     double time = 0;
-
+    bool intervalFixed = interval > 0;
     do {
         const wstring file_name = file_data.cFileName;
         const wstring full_file_name = folderName + L"/" + file_name;
+        if (file_name == L"." || file_name == L"..")
+            continue;
+
+        if (!intervalFixed)
+        {
+            wsmatch match;
+            smatch match2;
+            interval = 0;
+            regex_match(file_name, match, wregex(L".*?(\\d+)ms.*"));
+            //string a(file_name.begin(), file_name.end());
+            //regex_match(a, match2, regex("\\D(\\d+)ms.*"));
+            if (match.size() >= 2)
+                interval = 0.001 * stoi(match[1]);
+            if (interval <= 0)
+                interval = 0.1;
+        }
         const bool is_directory = (file_data.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) != 0;
 
         if (file_name[0] == '.')
@@ -91,7 +108,8 @@ const SpriteAnim* D2DAnimatedSprite::LoadAnimation(wstring folderName, double in
 void D2DAnimatedSprite::Render(D2D1::Matrix3x2F transform)
 {
     if (animSprites)
-        YunuD2D::YunuD2DGraphicCore::GetInstance()->DrawSprite((*animSprites)[index].second, transform, D2D1::ColorF::White, width, height);
+        if (!animSprites->empty())
+            YunuD2D::YunuD2DGraphicCore::GetInstance()->DrawSprite((*animSprites)[index].second, transform, color, width, height);
 }
 const SpriteAnim* D2DAnimatedSprite::GetAnimSprites() const
 {

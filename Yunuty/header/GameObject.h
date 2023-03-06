@@ -37,6 +37,7 @@ namespace YunutyEngine
         ~GameObject();
         Transform* GetTransform();
         const Transform* GetTransform()const;
+        GameObject* AddGameObject();
         // 템플릿 매개변수로 주어진 타입의 컴포넌트를 게임 오브젝트에 부착합니다.
         template<typename ComponentType>
         ComponentType* AddComponent()
@@ -54,7 +55,7 @@ namespace YunutyEngine
         template<typename ComponentType>
         ComponentType* GetComponent()
         {
-            static_assert(std::is_base_of<Component, ComponentType>::value, "only derived classes from component are allowed");
+            //static_assert(std::is_base_of<Component, ComponentType>::value, "only derived classes from component are allowed");
             for (auto i = components.begin(); i != components.end(); i++)
             {
                 auto castedPointer = dynamic_cast<ComponentType*>(i->first);
@@ -105,10 +106,10 @@ namespace YunutyEngine
         Scene* GetScene();
         void SetParent(IGameObjectParent* parent = nullptr);
         int GetChildIndex()const;
+        void SetChildIndex(int index);
         int GetSceneIndex()const;
         string getName()const;
         void setName(const string& name);
-        void SetCacheDirty();
     private:
         Scene* scene = nullptr;
         string name = "";
@@ -116,18 +117,20 @@ namespace YunutyEngine
         int childrenNum = 0;
         IGameObjectParent* parent = nullptr;
         GameObject* parentGameObject = nullptr;
-        Transform* transform=nullptr;
+        Transform* transform = nullptr;
         unordered_map<GameObject*, unique_ptr<GameObject>> children;
         vector<GameObject*> childrenIndexed;
         unordered_map<const GameObject*, int> childIndexMap;
         // sceneIndex is Updated per every cycle.
-        int sceneIndex=0;
+        int sceneIndex = 0;
         mutable cache<int> cachedSceneIndex;
         unordered_map<Component*, unique_ptr<Component>> components;
         GameObject(IGameObjectParent* parent);
         void DoThingsOnParents(function<void(GameObject*)> todo);
+        virtual void SetChildIndex(GameObject* child, int index);
         // 꼬리재귀를 위한 재귀함수
         static int GetSceneIndex(const GameObject* target);
+        void SetCacheDirty();
     protected:
         unique_ptr<YunutyEngine::GameObject> MoveChild(GameObject* child) override;
         void ReceiveChild(remove_reference<unique_ptr<GameObject>>::type&& child) override;

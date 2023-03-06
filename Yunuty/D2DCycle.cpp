@@ -13,8 +13,10 @@ BOOL YunutyEngine::D2D::D2DCycle::InitInstance()
     if (!hInstance)
         return false;
 
-    hWnd = CreateWindowW(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW,
-        CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, nullptr, nullptr, hInstance, nullptr);
+    //hWnd = CreateWindowW(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW,
+    //    CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, nullptr, nullptr, hInstance, nullptr);
+    HWND hWnd = CreateWindowW(szWindowClass, 0, WS_POPUP,
+        0, 0, GetSystemMetrics(SM_CXSCREEN), GetSystemMetrics(SM_CYSCREEN), NULL, NULL, hInstance, NULL);
 
     if (!hWnd)
     {
@@ -68,7 +70,8 @@ BOOL YunutyEngine::D2D::D2DCycle::Initialize(HINSTANCE hInstance, const WNDCLASS
 void YunutyEngine::D2D::D2DCycle::ThreadUpdate()
 {
     YunutyCycle::ThreadUpdate();
-    RedrawWindow(hWnd, NULL, NULL, RDW_INVALIDATE | RDW_UPDATENOW);
+    if (IsGameRunning())
+        RedrawWindow(hWnd, NULL, NULL, RDW_INVALIDATE | RDW_UPDATENOW);
 }
 
 HWND YunutyEngine::D2D::D2DCycle::GetMainWindow()
@@ -108,7 +111,15 @@ LRESULT CALLBACK YunutyEngine::D2D::D2DCycle::WndProc(HWND hWnd, UINT message, W
         if (dynamic_cast<D2DCamera*>(D2DCamera::GetMainCamera()))
             dynamic_cast<D2DCamera*>(D2DCamera::GetMainCamera())->Render(hWnd, message, wParam, lParam);
         break;
+    case WM_SETFOCUS:
+        GetInstance().focused = true;
+        break;
+    case WM_KILLFOCUS:
+        GetInstance().focused = false;
+        break;
     case WM_DESTROY:
+        //D2DCycle::GetInstance().Stop();
+        //YunutyCycle::GetInstance().Release();
         PostQuitMessage(0);
         break;
     default:

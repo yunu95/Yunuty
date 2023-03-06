@@ -11,7 +11,13 @@ void YunutyEngine::Time::Update()
     auto now = chrono::system_clock::now();
     //std::chrono::duration<double> diff = now - lastFrameTime;
     if (lastFrameTime != (chrono::system_clock::time_point::min)())
+    {
         deltaTimeUnscaled = chrono::duration<double>(now - lastFrameTime).count();
+#if _DEBUG
+        if (deltaTimeUnscaled > 1)
+            deltaTimeUnscaled = 0.000001;
+#endif
+    }
 
     lastFrameTime = now;
     auto nowInSeconds = ((chrono::duration<double>)now.time_since_epoch()).count();

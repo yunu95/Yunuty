@@ -136,9 +136,49 @@ const Transform* YunutyEngine::GameObject::GetTransform()const
 {
     return transform;
 }
+GameObject* YunutyEngine::GameObject::AddGameObject()
+{
+    return scene->AddGameObject(this);
+}
 int YunutyEngine::GameObject::GetChildIndex()const
 {
     return parent->GetChildIndex(this);
+}
+void YunutyEngine::GameObject::SetChildIndex(int index)
+{
+    parent->SetChildIndex(this, index);
+}
+void YunutyEngine::GameObject::SetChildIndex(GameObject* child, int index)
+{
+    if (index >= children.size())
+        index = children.size() - 1;
+    if (index < 0)
+        index = 0;
+
+    if (children.find(child) == children.end())
+        return;
+    auto origin=childIndexMap[child];
+    if (origin == index)
+        return;
+
+    if (origin > index)
+    {
+        for (int i = origin; i > index; i--)
+            childrenIndexed[i] = childrenIndexed[i-1];
+        childrenIndexed[index] = child;
+
+        for (int i = origin; i >= index; i--)
+            childIndexMap[childrenIndexed[i]] = i;
+    }
+    else
+    {
+        for (int i = origin; i < index; i++)
+            childrenIndexed[i] = childrenIndexed[i+1];
+        childrenIndexed[index] = child;
+
+        for (int i = origin; i <= index; i++)
+            childIndexMap[childrenIndexed[i]] = i;
+    }
 }
 int YunutyEngine::GameObject::GetSceneIndex()const
 {
@@ -148,7 +188,7 @@ int YunutyEngine::GameObject::GetSceneIndex(const GameObject* target)
 {
     if (!target->cachedSceneIndex.IsDirty())
         return target->cachedSceneIndex;
-    
+
 #if _DEBUG
     messyIndexingCalled++;
 #endif

@@ -17,6 +17,11 @@ YunutyEngine::YunutyCycle* YunutyEngine::YunutyCycle::_instance = nullptr;
 YunutyEngine::YunutyCycle::YunutyCycle()
 {
     assert(!_instance);
+    _instance = this;
+}
+YunutyCycle::~YunutyCycle()
+{
+    Release();
 }
 void YunutyEngine::YunutyCycle::Release()
 {
@@ -33,6 +38,7 @@ YunutyEngine::YunutyCycle& YunutyEngine::YunutyCycle::GetInstance()
 }
 void YunutyEngine::YunutyCycle::Initialize()
 {
+
 }
 
 void YunutyEngine::YunutyCycle::Play()
@@ -45,7 +51,8 @@ void YunutyEngine::YunutyCycle::Play()
 void YunutyEngine::YunutyCycle::Stop()
 {
     isGameRunning = false;
-    updateThread.join();
+    if (updateThread.joinable())
+        updateThread.join();
 }
 
 void YunutyEngine::YunutyCycle::Pause()
@@ -66,7 +73,10 @@ void YunutyEngine::YunutyCycle::ThreadFunction()
     while (isGameRunning)
     {
         ThreadUpdate();
-        std::this_thread::sleep_for(std::chrono::milliseconds(10));
+        auto sleepImplied = 10;
+        sleepImplied -= Time::GetDeltaTimeUnscaled() * 1000;
+        if (sleepImplied > 1)
+            std::this_thread::sleep_for(std::chrono::milliseconds(sleepImplied));
     }
 }
 // Update components and render camera
@@ -78,9 +88,20 @@ void YunutyEngine::YunutyCycle::ThreadUpdate()
         (*i)->Update();
     //i->second->Update();
 
+    for (auto each : Scene::getCurrentScene()->destroyList)
+    {
+        for (auto each : each->GetComponents())
+            each->OnDestroy();
+        each->parent->MoveChild(each);
+    }
+
+    Scene::getCurrentScene()->destroyList.clear();
+
     for (auto each : GetGameObjects(false))
         each->SetCacheDirty();
-    ActiveComponentsDo(&Component::Update);
+    //ActiveComponentsDo(&Component::Update);
+    for (auto each : GetActiveComponents())
+        UpdateComponent(each);
 
     Collider2D::InvokeCollisionEvents();
 

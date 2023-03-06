@@ -25,8 +25,10 @@ namespace YunutyEngine
         unordered_set<GameObject*> gameObjects;
         unordered_map<GameObject*, unique_ptr<GameObject>> children;
         vector<GameObject*> childrenIndexed;
+        set<GameObject*> destroyList;
         unordered_map<const GameObject*, int> childIndexMap;
         static Scene* currentScene;
+        virtual void SetChildIndex(GameObject* child, int index);
     protected:
         unique_ptr<YunutyEngine::GameObject> MoveChild(GameObject* child) override;
         void ReceiveChild(remove_reference<unique_ptr<GameObject>>::type&& child)override;
@@ -40,6 +42,7 @@ namespace YunutyEngine
         static void LoadScene(Scene* scene);
         string getName()const;
         void setName(const string& name);
+        void DestroyGameObject(GameObject* gameObj);
         GameObject* AddGameObject(IGameObjectParent* parent = nullptr);
         GameObject* AddGameObject(string name, IGameObjectParent* parent = nullptr);
         friend YunutyCycle;

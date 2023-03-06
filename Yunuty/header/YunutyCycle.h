@@ -29,7 +29,7 @@ namespace YunutyEngine
     protected:
         static YunutyCycle* _instance;
         YunutyCycle();
-        //virtual ~YunutyCycle(); 
+        virtual ~YunutyCycle(); 
         virtual void ThreadUpdate();
     public:
         static YunutyCycle& GetInstance();

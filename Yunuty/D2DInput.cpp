@@ -10,6 +10,7 @@ D2DInput* D2DInput::instance = nullptr;
 D2DInput::D2DInput()
 {
     instance = this;
+    rawKeyEnumMap.insert(make_pair(VK_ESCAPE, KeyCode::ESC));
     rawKeyEnumMap.insert(make_pair(VK_LEFT, KeyCode::LeftArrow));
     rawKeyEnumMap.insert(make_pair(VK_RIGHT, KeyCode::RightArrow));
     rawKeyEnumMap.insert(make_pair(VK_UP, KeyCode::UpArrow));
@@ -19,6 +20,19 @@ D2DInput::D2DInput()
     rawKeyEnumMap.insert(make_pair(VK_LBUTTON, KeyCode::MouseLeftClick));
     rawKeyEnumMap.insert(make_pair(VK_MBUTTON, KeyCode::MouseMiddleClick));
     rawKeyEnumMap.insert(make_pair(VK_RBUTTON, KeyCode::MouseRightClick));
+
+    rawKeyEnumMap.insert(make_pair(VK_CONTROL, KeyCode::Control));
+    rawKeyEnumMap.insert(make_pair(VK_LSHIFT, KeyCode::LShift));
+    rawKeyEnumMap.insert(make_pair(VK_RSHIFT, KeyCode::RShift));
+    rawKeyEnumMap.insert(make_pair(VK_MENU, KeyCode::Alt));
+    rawKeyEnumMap.insert(make_pair(VK_TAB, KeyCode::Tab));
+    rawKeyEnumMap.insert(make_pair(VK_BACK, KeyCode::Backspace));
+    rawKeyEnumMap.insert(make_pair(VK_DELETE, KeyCode::Delete));
+    rawKeyEnumMap.insert(make_pair(VK_INSERT, KeyCode::Insert));
+    rawKeyEnumMap.insert(make_pair(VK_HOME, KeyCode::Home));
+    rawKeyEnumMap.insert(make_pair(VK_END, KeyCode::End));
+    rawKeyEnumMap.insert(make_pair(VK_PRIOR, KeyCode::PgUp));
+    rawKeyEnumMap.insert(make_pair(VK_NEXT, KeyCode::PgDn));
 
     rawKeyEnumMap.insert(make_pair('A', KeyCode::A));
     rawKeyEnumMap.insert(make_pair('B', KeyCode::B));
@@ -46,6 +60,36 @@ D2DInput::D2DInput()
     rawKeyEnumMap.insert(make_pair('X', KeyCode::X));
     rawKeyEnumMap.insert(make_pair('Y', KeyCode::Y));
     rawKeyEnumMap.insert(make_pair('Z', KeyCode::Z));
+
+    rawKeyEnumMap.insert(make_pair('1', KeyCode::NUM_1));
+    rawKeyEnumMap.insert(make_pair('2', KeyCode::NUM_2));
+    rawKeyEnumMap.insert(make_pair('3', KeyCode::NUM_3));
+    rawKeyEnumMap.insert(make_pair('4', KeyCode::NUM_4));
+    rawKeyEnumMap.insert(make_pair('5', KeyCode::NUM_5));
+    rawKeyEnumMap.insert(make_pair('6', KeyCode::NUM_6));
+    rawKeyEnumMap.insert(make_pair('7', KeyCode::NUM_7));
+    rawKeyEnumMap.insert(make_pair('8', KeyCode::NUM_8));
+    rawKeyEnumMap.insert(make_pair('9', KeyCode::NUM_9));
+    rawKeyEnumMap.insert(make_pair('0', KeyCode::NUM_0));
+
+    rawKeyEnumMap.insert(make_pair(VK_NUMPAD1, KeyCode::NUMPAD_1));
+    rawKeyEnumMap.insert(make_pair(VK_NUMPAD2, KeyCode::NUMPAD_2));
+    rawKeyEnumMap.insert(make_pair(VK_NUMPAD3, KeyCode::NUMPAD_3));
+    rawKeyEnumMap.insert(make_pair(VK_NUMPAD4, KeyCode::NUMPAD_4));
+    rawKeyEnumMap.insert(make_pair(VK_NUMPAD5, KeyCode::NUMPAD_5));
+    rawKeyEnumMap.insert(make_pair(VK_NUMPAD6, KeyCode::NUMPAD_6));
+    rawKeyEnumMap.insert(make_pair(VK_NUMPAD7, KeyCode::NUMPAD_7));
+    rawKeyEnumMap.insert(make_pair(VK_NUMPAD8, KeyCode::NUMPAD_8));
+    rawKeyEnumMap.insert(make_pair(VK_NUMPAD9, KeyCode::NUMPAD_9));
+    rawKeyEnumMap.insert(make_pair(VK_NUMPAD0, KeyCode::NUMPAD_0));
+
+    rawKeyEnumMap.insert(make_pair(VK_OEM_PERIOD, KeyCode::Perido));
+    rawKeyEnumMap.insert(make_pair(VK_OEM_PLUS, KeyCode::Plus));
+    rawKeyEnumMap.insert(make_pair(VK_OEM_COMMA, KeyCode::Comma));
+    rawKeyEnumMap.insert(make_pair(VK_OEM_MINUS, KeyCode::Minus));
+    rawKeyEnumMap.insert(make_pair(VK_OEM_2, KeyCode::Slash));
+    rawKeyEnumMap.insert(make_pair(VK_OEM_5, KeyCode::BackSlash));
+
 }
 D2DInput::~D2DInput()
 {
@@ -59,6 +103,8 @@ void D2DInput::Update()
     {
         if (GetKeyState(each.first) & 0x8000)
         {
+            if (!D2DCycle::GetInstance().isWindowFocused())
+                continue;
             if (keyDownSet.find(each.second) == keyDownSet.end())
                 keyPushedSet.insert(each.second);
             keyDownSet.insert(each.second);

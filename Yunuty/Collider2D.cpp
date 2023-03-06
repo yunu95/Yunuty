@@ -143,7 +143,7 @@ void Collider2D::InvokeCollisionEvents()
                         if (colliderA->overlappedColliders.find(colliderB) == colliderA->overlappedColliders.end())
                         {
                             colliderA->overlappedColliders.insert(colliderB);
-                            for (auto each : colliderA->GetGameObject()->GetComponents())
+                           for (auto each : colliderA->GetGameObject()->GetComponents())
                                 each->OnCollisionEnter2D(collisionOnA);
 
                             colliderB->overlappedColliders.insert(colliderA);

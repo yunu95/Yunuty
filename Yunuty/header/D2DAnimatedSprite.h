@@ -20,14 +20,16 @@ namespace YunutyEngine
         public:
             void SetIsRepeating(bool repeating) { this->isRepeating = repeating; }
             bool GetIsRepeating() { return this->isRepeating; }
-            void LoadAnimationFromFile(wstring folderName, double interval = 0.1);
+            void LoadAnimationFromFile(wstring folderName, double interval = 0.0);
             void Play();
             void SetWidth(double width);
             void SetHeight(double width);
+            double GetWidth() { return width; }
+            double GetHeight() { return height; }
         protected:
             virtual void Update() override;
             virtual void Render(D2D1::Matrix3x2F transform) override;
-            static const SpriteAnim* LoadAnimation(wstring folderName, double interval = 0.1);
+            static const SpriteAnim* LoadAnimation(wstring folderName, double interval = 0.0);
             void SetAnimation(const SpriteAnim* animation);
             const SpriteAnim* GetAnimSprites() const;
         private:

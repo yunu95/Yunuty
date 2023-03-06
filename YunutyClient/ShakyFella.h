@@ -9,6 +9,10 @@ protected:
     virtual void OnCollisionExit2D(const Collision2D& collision);
     virtual void Update() override;
 public:
+    ~ShakyFella()
+    {
+        int a = 3;
+    };
     float shakeSpeed = 2;
     float minSize = 0.9;
     float maxSize = 1.1;

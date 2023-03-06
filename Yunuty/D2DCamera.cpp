@@ -7,7 +7,6 @@
 #include "GameObject.h"
 #include "D2DCycle.h"
 
-
 using namespace YunutyEngine;
 using namespace YunutyEngine::D2D;
 
@@ -122,3 +121,4 @@ D2DCamera* D2DCamera::GetMainD2DCamera()
 {
     return dynamic_cast<D2DCamera*>(GetMainCamera());
 }
+

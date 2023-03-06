@@ -36,6 +36,8 @@
 #include "BoxCollider2D.h"
 #include "CircleCollider2D.h"
 #include "GameObjectPool.h"
+#include "SoundSystem.h"
+#include "SoundChannel.h"
 
 // 수학 라이브러리들
 #include "YunutyMathConstants.h"

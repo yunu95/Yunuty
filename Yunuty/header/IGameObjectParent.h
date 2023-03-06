@@ -20,9 +20,11 @@ namespace YunutyEngine
         virtual unique_ptr<YunutyEngine::GameObject> MoveChild(GameObject* child) = 0;
         virtual void ReceiveChild(remove_reference<unique_ptr<GameObject>>::type&& child) = 0;
         virtual int GetChildIndex(const GameObject* child)const = 0;
+        virtual void SetChildIndex(GameObject* child,int index) = 0;
     public:
         virtual const vector<GameObject*>& GetChildren()const = 0;
         friend GameObject;
         friend Scene;
+        friend YunutyCycle;
     };
 }
