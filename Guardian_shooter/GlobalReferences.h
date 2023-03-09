@@ -4,4 +4,5 @@
 namespace GlobalReference
 {
 	extern Collider2D* cameraRectCollider;
+	extern bool isDebugMode;
 }

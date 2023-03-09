@@ -77,6 +77,7 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)YunuD2DGraphicCore\header\;$(SolutionDir)Yunuty\header\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -111,6 +112,7 @@
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)YunuD2DGraphicCore\header\;$(SolutionDir)Yunuty\header\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -128,6 +130,7 @@
       <PreprocessorDefinitions>NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)YunuD2DGraphicCore\header\;$(SolutionDir)Yunuty\header\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -139,29 +142,131 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Bomb.h" />
+    <ClInclude Include="Bomber.h" />
+    <ClInclude Include="Boss.h" />
+    <ClInclude Include="BossBullet.h" />
     <ClInclude Include="Bullet.h" />
-    <ClInclude Include="BulletPool.h" />
-    <ClInclude Include="Enemy.h" />
-    <ClInclude Include="EnemyPool.h" />
+    <ClInclude Include="Button.h" />
+    <ClInclude Include="CameraRail.h" />
+    <ClInclude Include="CameraSticky.h" />
+    <ClInclude Include="CollisionEventDispatcher.h" />
+    <ClInclude Include="Cursor.h" />
+    <ClInclude Include="DamageEffect.h" />
+    <ClInclude Include="DebugObject.h" />
+    <ClInclude Include="Drone.h" />
+    <ClInclude Include="ImageScroller.h" />
+    <ClInclude Include="Missile.h" />
+    <ClInclude Include="EliteMonster.h" />
+    <ClInclude Include="PatrolCollider.h" />
+    <ClInclude Include="ShooterOneShot.h" />
+    <ClInclude Include="EnemyMarker.h" />
+    <ClInclude Include="EnemyType.h" />
+    <ClInclude Include="EnemyWave.h" />
+    <ClInclude Include="EventCollider.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="GlobalReferences.h" />
     <ClInclude Include="Ground.h" />
+    <ClInclude Include="GSCamera.h" />
     <ClInclude Include="Guardian_shooter.h" />
+    <ClInclude Include="Item.h" />
+    <ClInclude Include="ItemMarker.h" />
+    <ClInclude Include="Laser.h" />
+    <ClInclude Include="MapImage.h" />
+    <ClInclude Include="MapObject.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+      </ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="MapTool.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="Player.h" />
+    <ClInclude Include="PlayerGauge.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="PlayerStartPoint.h" />
+    <ClInclude Include="Projectile.h" />
+    <ClInclude Include="ProjectilePool.h" />
+    <ClInclude Include="RailPoint.h" />
     <ClInclude Include="Resource.h" />
+    <ClInclude Include="Shooter1.h" />
+    <ClInclude Include="Shooter2.h" />
+    <ClInclude Include="Shooter3.h" />
+    <ClInclude Include="ShootingLaser.h" />
+    <ClInclude Include="SpaceShip.h" />
     <ClInclude Include="targetver.h" />
+    <ClInclude Include="TerrainPoint.h" />
+    <ClInclude Include="TextInput.h" />
+    <ClInclude Include="Puddle.h" />
+    <ClInclude Include="Threat.h" />
+    <ClInclude Include="ThreatPool.h" />
     <ClInclude Include="Timer.h" />
+    <ClInclude Include="UIManager.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="EnemyPool.cpp" />
+    <ClCompile Include="Bomb.cpp" />
+    <ClCompile Include="Bomber.cpp" />
+    <ClCompile Include="Boss.cpp" />
+    <ClCompile Include="BossBullet.cpp" />
+    <ClCompile Include="Button.cpp" />
+    <ClCompile Include="CameraRail.cpp" />
+    <ClCompile Include="CollisionEventDispatcher.cpp" />
+    <ClCompile Include="Cursor.cpp" />
+    <ClCompile Include="DamageEffect.cpp" />
+    <ClCompile Include="DebugObject.cpp" />
+    <ClCompile Include="Drone.cpp" />
+    <ClCompile Include="EliteMonster.cpp" />
+    <ClCompile Include="EnemyMarker.cpp" />
+    <ClCompile Include="EnemyWave.cpp" />
+    <ClCompile Include="EventCollider.cpp" />
     <ClCompile Include="GlobalReferences.cpp" />
     <ClCompile Include="Ground.cpp" />
     <ClCompile Include="Bullet.cpp" />
-    <ClCompile Include="BulletPool.cpp" />
-    <ClCompile Include="Enemy.cpp" />
+    <ClCompile Include="ImageScroller.cpp" />
+    <ClCompile Include="Missile.cpp" />
+    <ClCompile Include="PatrolCollider.cpp" />
+    <ClCompile Include="ShooterOneShot.cpp" />
+    <ClCompile Include="GSCamera.cpp" />
     <ClCompile Include="Guardian_shooter.cpp" />
+    <ClCompile Include="Item.cpp" />
+    <ClCompile Include="ItemMarker.cpp" />
+    <ClCompile Include="Laser.cpp" />
+    <ClCompile Include="MapImage.cpp" />
+    <ClCompile Include="MapObject.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+      </ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="MapTool.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="PlayerGauge.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="PlayerStartPoint.cpp" />
+    <ClCompile Include="Projectile.cpp" />
+    <ClCompile Include="ProjectilePool.cpp" />
+    <ClCompile Include="RailPoint.cpp" />
+    <ClCompile Include="Shooter1.cpp" />
+    <ClCompile Include="Shooter2.cpp" />
+    <ClCompile Include="Shooter3.cpp" />
+    <ClCompile Include="ShootingLaser.cpp" />
+    <ClCompile Include="SpaceShip.cpp" />
+    <ClCompile Include="TerrainPoint.cpp" />
+    <ClCompile Include="TextInput.cpp" />
+    <ClCompile Include="Puddle.cpp" />
+    <ClCompile Include="Threat.cpp" />
+    <ClCompile Include="ThreatPool.cpp" />
     <ClCompile Include="Timer.cpp" />
+    <ClCompile Include="UIManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Guardian_shooter.rc" />

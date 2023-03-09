@@ -1,18 +1,24 @@
 #pragma once
 #include "YunutyEngine.h"
+#include "Projectile.h"
 
-class Bullet : public Component
+class Bullet : public Projectile
 {
 public:
-	Bullet() : speed(Vector3d(-200, 0, 0)), damage(3.f) { }
-	Vector3d speed;
-	double damage;
-	bool isPlayerBullet;
+	Bullet();
+
+public:
+	static void CreateBullet(Vector3d);
+	virtual void Initalize(D2DAnimatedSprite* sprite) override;
+	virtual void Destroy() override;
 
 protected:
 	virtual void Update() override;
 	virtual void OnCollisionEnter2D(const Collision2D& collision) override;
 	virtual void OnCollisionExit2D(const Collision2D& collision) override;
+
+private:
+	
 };
 
-void CreateBullet(Scene*, Vector3d);
+

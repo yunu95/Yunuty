@@ -3,8 +3,6 @@
 
 #include "framework.h"
 #include "Guardian_shooter.h"
-#include "Player.h"
-#include "YunutyEngine.h"
 
 #define MAX_LOADSTRING 100
 
@@ -21,6 +19,7 @@ INT_PTR CALLBACK    About(HWND, UINT, WPARAM, LPARAM);
 
 using namespace YunutyEngine;
 using namespace YunutyEngine::D2D;
+using namespace UI;
 
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     _In_opt_ HINSTANCE hPrevInstance,
@@ -51,26 +50,51 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     wcex.lpszClassName = szWindowClass;
     wcex.hIconSm = LoadIcon(wcex.hInstance, MAKEINTRESOURCE(IDI_SMALL));
     // Perform application initialization:
+    YunutyEngine::D2D::D2DCycle::GetInstance().Initialize(hInstance, wcex, nCmdShow, IDS_APP_TITLE, IDC_GUARDIANSHOOTER);
+
     Scene defaultScene;
     Scene::LoadScene(&defaultScene);
-    auto cam = defaultScene.AddGameObject()->AddComponent<D2DCamera>();
-    auto box = defaultScene.AddGameObject()->AddComponent<D2DRectangle>();
-    box->color = D2D1::ColorF::White;
-    box->filled = true;
-    box->height = 100;
-    box->width = 100;
-    box->GetGameObject()->AddComponent<Player>();
+    auto mapTool = defaultScene.AddGameObject();
+    auto uiWindow = defaultScene.AddGameObject();
+    auto cam = defaultScene.AddGameObject();
+    cam->AddComponent<GSCamera>()->Initialize();
 
+    mapTool->AddComponent<gs_map::MapTool>();
+    gs_map::MapTool::GetInstance()->Initialize();
+
+    uiWindow->AddComponent<UIManager>();
+    UIManager::GetInstance()->Initialize();
+    UIManager::GetInstance()->ShowUI(UIManager::UIEnum::TitleUI, uiWindow);
+
+
+    //Player::CreatePlayer(Vector3d(-100, 200, 0));
+    ////ShooterOneShot::CreateShooterOneShot(Vector3d(500, 200, 0));
+    //Bomber::CreateBomber(Vector3d(400, 200, 0));	
+
+    //for (int i = 0; i < 10; ++i)
+    //	Bullet::CreateBullet(Vector3d(500, 0, 0));
+    //for (int i = 0; i < 10; ++i)
+    //	Bomb::CreateBomb(Vector3d(0, 0, 0));
+
+    //Item::CreateItem(Vector3d(200, 200, 0), ItemType::HealPack);
+
+   //CreatePlayer(&defaultScene, Vector3d(-100, 200, 0));
+   //Enemy::CreateEnemy(Vector3d(500, 200, 0));
+
+    //auto snd = SoundSystem::PlaySoundfile("sounds/bloodtype.mp3");
+
+    //gs_map::TerrainPoint* tempTP = gs_map::TerrainPoint::CreateTerrainPoint(cursorObj->GetTransform()->GetWorldPosition());
+    //tempTP->GetGameObject()->GetComponent<D2DCircle>()->color = D2D1::ColorF::Green;
+
+    YunutyEngine::D2D::D2DCycle::GetInstance().Play();
+    //MapImage::Load(gs_map::MapTool::GetInstance()->GetLastEditedMapName());
 
     HACCEL hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_GUARDIANSHOOTER));
 
     MSG msg;
 
-    YunutyEngine::D2D::D2DCycle::GetInstance().Initialize(hInstance, wcex, nCmdShow, IDS_APP_TITLE, IDC_GUARDIANSHOOTER);
-    YunutyEngine::D2D::D2DCycle::GetInstance().Play();
-
     // Main message loop:
-    while (GetMessage(&msg, nullptr, 0, 0))
+    while (GetMessage(&msg, nullptr, 0, 0) && !UIManager::GetInstance()->readyToQuit)
     {
         if (!TranslateAccelerator(msg.hwnd, hAccelTable, &msg))
         {
@@ -78,6 +102,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
             DispatchMessage(&msg);
         }
     }
+    D2DCycle::GetInstance().Release();
 
     return (int)msg.wParam;
 }
@@ -124,8 +149,10 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 {
     hInst = hInstance; // Store instance handle in our global variable
 
+    //HWND hWnd = CreateWindowW(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW,
+    //    CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, nullptr, nullptr, hInstance, nullptr);
     HWND hWnd = CreateWindowW(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW,
-        CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, nullptr, nullptr, hInstance, nullptr);
+        0, 0, GetSystemMetrics(SM_CXSCREEN), GetSystemMetrics(SM_CYSCREEN), NULL, NULL, hInstance, NULL);
 
     if (!hWnd)
     {
@@ -161,8 +188,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
         case IDM_ABOUT:
             DialogBox(hInst, MAKEINTRESOURCE(IDD_ABOUTBOX), hWnd, About);
             break;
-        case IDM_EXIT:
-            DestroyWindow(hWnd);
+        case WM_DESTROY:
+            //DestroyWindow(hWnd);
+            UIManager::GetInstance()->readyToQuit = true;
             break;
         default:
             return DefWindowProc(hWnd, message, wParam, lParam);

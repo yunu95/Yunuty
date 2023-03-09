@@ -1,48 +1,119 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
+    <ClCompile Include="Button.cpp" />
+    <ClCompile Include="Cursor.cpp" />
+    <ClCompile Include="DebugObject.cpp" />
+    <ClCompile Include="EnemyMarker.cpp" />
+    <ClCompile Include="GlobalReferences.cpp" />
     <ClCompile Include="Ground.cpp" />
     <ClCompile Include="Bullet.cpp" />
-    <ClCompile Include="BulletPool.cpp" />
-    <ClCompile Include="Enemy.cpp" />
+    <ClCompile Include="ShooterOneShot.cpp" />
     <ClCompile Include="Guardian_shooter.cpp" />
+    <ClCompile Include="MapObject.cpp" />
+    <ClCompile Include="MapTool.cpp" />
     <ClCompile Include="Player.cpp" />
-    <ClCompile Include="Button.cpp" />
+    <ClCompile Include="PlayerGauge.cpp" />
+    <ClCompile Include="PlayerStartPoint.cpp" />
+    <ClCompile Include="TerrainPoint.cpp" />
+    <ClCompile Include="Timer.cpp" />
+    <ClCompile Include="Threat.cpp" />
+    <ClCompile Include="EnemyWave.cpp" />
+    <ClCompile Include="GSCamera.cpp" />
+    <ClCompile Include="EventCollider.cpp" />
+    <ClCompile Include="CollisionEventDispatcher.cpp" />
+    <ClCompile Include="Laser.cpp" />
+    <ClCompile Include="SpaceShip.cpp" />
+    <ClCompile Include="Puddle.cpp" />
+    <ClCompile Include="CollisionEventDispatcher.cpp" />
+    <ClCompile Include="TextInput.cpp" />
+    <ClCompile Include="MapImage.cpp" />
+    <ClCompile Include="RailPoint.cpp" />
+    <ClCompile Include="CameraRail.cpp" />
+    <ClCompile Include="Bomber.cpp" />
+    <ClCompile Include="Item.cpp" />
+    <ClCompile Include="Bomb.cpp" />
+    <ClCompile Include="Drone.cpp" />
+    <ClCompile Include="ProjectilePool.cpp" />
+    <ClCompile Include="Projectile.cpp" />
+    <ClCompile Include="ThreatPool.cpp" />
+    <ClCompile Include="ItemMarker.cpp" />
+    <ClCompile Include="Shooter1.cpp" />
+    <ClCompile Include="Shooter2.cpp" />
+    <ClCompile Include="Shooter3.cpp" />
+    <ClCompile Include="ShootingLaser.cpp" />
+    <ClCompile Include="Boss.cpp" />
+    <ClCompile Include="Missile.cpp" />
+    <ClCompile Include="EliteMonster.cpp" />
+    <ClCompile Include="PatrolCollider.cpp" />
+    <ClCompile Include="BossBullet.cpp" />
+    <ClCompile Include="UIManager.cpp" />
+    <ClCompile Include="ImageScroller.cpp" />
+    <ClCompile Include="DamageEffect.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Bullet.h" />
-    <ClInclude Include="BulletPool.h" />
-    <ClInclude Include="Enemy.h" />
-    <ClInclude Include="framework.h" />
-    <ClInclude Include="Ground.h" />
-    <ClInclude Include="Guardian_shooter.h" />
-    <ClInclude Include="Player.h" />
-    <ClInclude Include="Resource.h" />
-    <ClInclude Include="targetver.h" />
-    <ClInclude Include="MapTool.h" />
     <ClInclude Include="Button.h" />
     <ClInclude Include="Cursor.h" />
-    <ClInclude Include="EnemyPool.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Timer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GlobalReferences.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
+    <ClInclude Include="DebugObject.h" />
+    <ClInclude Include="ShooterOneShot.h" />
+    <ClInclude Include="EnemyMarker.h" />
+    <ClInclude Include="framework.h" />
+    <ClInclude Include="GlobalReferences.h" />
+    <ClInclude Include="Ground.h" />
+    <ClInclude Include="Guardian_shooter.h" />
+    <ClInclude Include="MapObject.h" />
+    <ClInclude Include="MapTool.h" />
+    <ClInclude Include="Player.h" />
+    <ClInclude Include="PlayerGauge.h" />
+    <ClInclude Include="PlayerStartPoint.h" />
+    <ClInclude Include="Resource.h" />
+    <ClInclude Include="targetver.h" />
+    <ClInclude Include="TerrainPoint.h" />
+    <ClInclude Include="Timer.h" />
+    <ClInclude Include="Threat.h" />
+    <ClInclude Include="Laser.h" />
+    <ClInclude Include="SpaceShip.h" />
+    <ClInclude Include="TerrainPoint.h" />
+    <ClInclude Include="Timer.h" />
+    <ClInclude Include="Threat.h" />
+    <ClInclude Include="EnemyWave.h" />
+    <ClInclude Include="EnemyType.h" />
+    <ClInclude Include="GSCamera.h" />
+    <ClInclude Include="EventCollider.h" />
+    <ClInclude Include="CollisionEventDispatcher.h" />
+    <ClInclude Include="CameraSticky.h" />
+    <ClInclude Include="Laser.h" />
+    <ClInclude Include="SpaceShip.h" />
+    <ClInclude Include="Puddle.h" />
+    <ClInclude Include="CollisionEventDispatcher.h" />
+    <ClInclude Include="TextInput.h" />
+    <ClInclude Include="MapImage.h" />
+    <ClInclude Include="RailPoint.h" />
+    <ClInclude Include="CameraRail.h" />
+    <ClInclude Include="Bomber.h" />
+    <ClInclude Include="Item.h" />
+    <ClInclude Include="Bomb.h" />
+    <ClInclude Include="Drone.h" />
+    <ClInclude Include="ProjectilePool.h" />
+    <ClInclude Include="Projectile.h" />
+    <ClInclude Include="ThreatPool.h" />
+    <ClInclude Include="ItemMarker.h" />
+    <ClInclude Include="Shooter1.h" />
+    <ClInclude Include="Shooter2.h" />
+    <ClInclude Include="Shooter3.h" />
+    <ClInclude Include="ShootingLaser.h" />
+    <ClInclude Include="Boss.h" />
+    <ClInclude Include="Missile.h" />
+    <ClInclude Include="EliteMonster.h" />
+    <ClInclude Include="PatrolCollider.h" />
+    <ClInclude Include="BossBullet.h" />
+    <ClInclude Include="UIManager.h" />
+    <ClInclude Include="ImageScroller.h" />
+    <ClInclude Include="DamageEffect.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Guardian_shooter.rc" />
-    <ClCompile Include="EnemyPool.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Timer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="GlobalReferences.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Guardian_shooter.ico" />
